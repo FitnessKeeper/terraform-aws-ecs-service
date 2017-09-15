@@ -5,7 +5,5 @@ data "aws_region" "current" {
 }
 
 data "aws_vpc" "vpc" {
-  tags {
-    Name = "${var.vpc_name}"
-  }
+  id = "${var.vpc_id}"
 }

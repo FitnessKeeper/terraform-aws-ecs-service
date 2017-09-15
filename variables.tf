@@ -1,11 +1,17 @@
-variable "vpc_name" {
+variable "vpc_id" {
   type        = "string"
-  description = "Name of VPC in which ECS cluster is located"
+  description = "ID of VPC in which ECS cluster is located"
 }
 
-variable "ecs_cluster" {
+variable "ecs_cluster_arn" {
   type        = "string"
-  description = "Name of ECS cluster in which the service will be deployed"
+  description = "ARN of ECS cluster in which the service will be deployed"
+}
+
+variable "ecs_desired_count" {
+  type        = "string"
+  description = "Desired number of containers in the task (default 1)"
+  default     = 1
 }
 
 variable "docker_image" {
@@ -15,29 +21,29 @@ variable "docker_image" {
 
 variable "docker_memory" {
   description = "Hard limit on memory use for task container (default 256)"
-  default     = "256"
+  default     = 256
 }
 
 variable "docker_memory_reservation" {
   description = "Soft limit on memory use for task container (default 128)"
-  default     = "128"
+  default     = 128
 }
 
 variable "docker_port_mappings" {
   type        = "list"
-  description = "List of port mapping maps of format { \"containerPort\": integer, [ \"hostPort\": integer, \"protocol\": \"tcp or udp\" ] }"
+  description = "List of port mapping maps of format { \"containerPort\" = integer, [ \"hostPort\" = integer, \"protocol\" = \"tcp or udp\" ] }"
   default     = []
 }
 
 variable "docker_mount_points" {
   type        = "list"
-  description = "List of mount point maps of format { \"sourceVolume\": \"vol_name\", \"containerPath\": \"path\", [\"readOnly\": \"true or false\" ] }"
+  description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
   default     = []
 }
 
 variable "docker_environment" {
   type        = "list"
-  description = "List of environment maps of format { \"name\": \"var_name\", \"value\": \"var_value\" }"
+  description = "List of environment maps of format { \"name\" = \"var_name\", \"value\" = \"var_value\" }"
   default     = []
 }
 
@@ -163,5 +169,5 @@ variable "alb_stickiness_enabled" {
 
 variable "alb_cookie_duration" {
   description = "Duration of ALB session stickiness cookie in seconds (default 86400)"
-  default     = "false"
+  default     = "86400"
 }

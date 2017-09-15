@@ -1,11 +1,7 @@
 # ECS SERVICE
 
-data "aws_ecs_cluster" "ecs" {
-  cluster_name = "${var.ecs_cluster}"
-}
-
-data "template_file" "container_definitions" {
-  template = "${file("${path.module}/files/container_definitions.json")}"
+data "template_file" "container_definition" {
+  template = "${file("${path.module}/files/container_definition.json")}"
 
   vars {
     service_identifier    = "${var.service_identifier}"
@@ -13,11 +9,11 @@ data "template_file" "container_definitions" {
     image                 = "${var.docker_image}"
     memory                = "${var.docker_memory}"
     memory_reservation    = "${var.docker_memory_reservation}"
-    port_mappings         = ["${var.docker_port_mappings}"]
-    environment           = ["${var.docker_environment}"]
-    mount_points          = ["${var.docker_mount_points}"]
+    app_port              = "${var.app_port}"
+    environment           = "${jsonencode(var.docker_environment)}"
+    mount_points          = "${jsonencode(var.docker_mount_points)}"
     awslogs_region        = "${data.aws_region.current.name}"
-    awslogs_group         = "${aws_cloudwatch_log_group.task.arn}"
+    awslogs_group         = "${var.task_identifier}"
     awslogs_region        = "${data.aws_region.current.name}"
     awslogs_stream_prefix = "${var.service_identifier}"
   }
@@ -25,14 +21,14 @@ data "template_file" "container_definitions" {
 
 resource "aws_ecs_task_definition" "task" {
   family                = "${var.service_identifier}-${var.task_identifier}"
-  container_definitions = "${data.template_file.container_definitions.rendered}"
+  container_definitions = "${data.template_file.container_definition.rendered}"
   network_mode          = "${var.network_mode}"
   task_role_arn         = "${aws_iam_role.task.arn}"
 }
 
 resource "aws_ecs_service" "service" {
   name            = "${var.service_identifier}-${var.task_identifier}"
-  cluster         = "${data.aws_ecs_cluster.ecs.id}"
+  cluster         = "${var.ecs_cluster_arn}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count   = "${var.ecs_desired_count}"
 
@@ -40,13 +36,16 @@ resource "aws_ecs_service" "service" {
     type  = "${var.ecs_placement_strategy_type}"
     field = "${var.ecs_placement_strategy_field}"
   }
+
+  depends_on = [
+    "aws_alb_target_group.service",
+    "aws_alb_listener.service_https",
+    "aws_alb_listener.service_http",
+    "aws_iam_role.service"
+  ]
 }
 
 resource "aws_cloudwatch_log_group" "task" {
-  name_prefix       = "${var.task_identifier}-"
+  name              = "${var.task_identifier}"
   retention_in_days = "${var.ecs_log_retention}"
-
-  tags {
-    Application = "${aws_ecs_task_definition.task.family}"
-  }
 }

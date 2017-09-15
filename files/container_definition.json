@@ -2,11 +2,15 @@
     {
         "name": "${service_identifier}-${task_identifier}",
         "image": "${image}",
-        "memory": "${memory}",
-        "memoryReservation": "${memory_reservation}",
-        "portMappings": "${port_mappings}",
-        "environment": "${environment}",
-        "mountPoints": "${mount_points}",
+        "memory": ${memory},
+        "memoryReservation": ${memory_reservation},
+        "portMappings": [
+          {
+            "containerPort": ${app_port}
+          }
+        ],
+        "environment": ${environment},
+        "mountPoints": ${mount_points},
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
