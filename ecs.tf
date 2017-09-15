@@ -31,10 +31,17 @@ resource "aws_ecs_service" "service" {
   cluster         = "${var.ecs_cluster_arn}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count   = "${var.ecs_desired_count}"
+  iam_role        = "${aws_iam_role.service.arn}"
 
   placement_strategy {
     type  = "${var.ecs_placement_strategy_type}"
     field = "${var.ecs_placement_strategy_field}"
+  }
+
+  load_balancer {
+    target_group_arn = "${aws_alb_target_group.service.arn}"
+    container_name   = "${var.service_identifier}-${var.task_identifier}"
+    container_port   = "${var.app_port}"
   }
 
   depends_on = [

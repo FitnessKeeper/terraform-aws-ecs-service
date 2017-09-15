@@ -6,6 +6,11 @@ data "aws_acm_certificate" "alb" {
   statuses = ["ISSUED"]
 }
 
+data "aws_security_group" "ecs" {
+  id     = "${var.ecs_security_group_id}"
+  vpc_id = "${data.aws_vpc.vpc.id}"
+}
+
 resource "aws_alb" "service" {
   count           = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   name            = "${var.service_identifier}-${var.task_identifier}"
@@ -46,7 +51,6 @@ resource "aws_alb_listener" "service_http" {
 }
 
 resource "aws_alb_target_group" "service" {
-  count    = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   name     = "${var.service_identifier}-${var.task_identifier}"
   port     = "${var.app_port}"
   protocol = "HTTP"
@@ -76,6 +80,7 @@ resource "aws_alb_target_group" "service" {
 }
 
 resource "aws_security_group" "alb" {
+  count       = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   name_prefix = "alb-${var.service_identifier}-${var.task_identifier}-"
   description = "Security group for ${var.service_identifier}-${var.task_identifier} ALB"
   vpc_id      = "${data.aws_vpc.vpc.id}"
@@ -84,4 +89,34 @@ resource "aws_security_group" "alb" {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
     Application = "${aws_ecs_task_definition.task.family}"
   }
+}
+
+resource "aws_security_group_rule" "alb_ingress_https" {
+  count             = "${var.alb_enable_https ? 1 : 0}"
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.alb.id}"
+}
+
+resource "aws_security_group_rule" "alb_ingress_http" {
+  count             = "${var.alb_enable_http ? 1 : 0}"
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.alb.id}"
+}
+
+resource "aws_security_group_rule" "alb_egress" {
+  count                    = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
+  type                     = "egress"
+  from_port                = 0
+  to_port                  = 65535
+  protocol                 = "-1"
+  source_security_group_id = "${data.aws_security_group.ecs.id}"
+  security_group_id        = "${aws_security_group.alb.id}"
 }

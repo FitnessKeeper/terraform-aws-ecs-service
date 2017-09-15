@@ -8,6 +8,11 @@ variable "ecs_cluster_arn" {
   description = "ARN of ECS cluster in which the service will be deployed"
 }
 
+variable "ecs_security_group_id" {
+  type        = "string"
+  description = "Security group ID of ECS cluster in which the service will be deployed"
+}
+
 variable "ecs_desired_count" {
   type        = "string"
   description = "Desired number of containers in the task (default 1)"
