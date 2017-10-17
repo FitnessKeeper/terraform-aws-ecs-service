@@ -13,7 +13,7 @@ data "template_file" "container_definition" {
     environment           = "${jsonencode(var.docker_environment)}"
     mount_points          = "${jsonencode(var.docker_mount_points)}"
     awslogs_region        = "${data.aws_region.current.name}"
-    awslogs_group         = "${var.task_identifier}"
+    awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
     awslogs_region        = "${data.aws_region.current.name}"
     awslogs_stream_prefix = "${var.service_identifier}"
   }
@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task" {
 }
 
 resource "aws_ecs_service" "service" {
-  name            = "${var.service_identifier}-${var.task_identifier}"
+  name            = "${var.service_identifier}-${var.task_identifier}-service"
   cluster         = "${var.ecs_cluster_arn}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count   = "${var.ecs_desired_count}"
@@ -53,6 +53,6 @@ resource "aws_ecs_service" "service" {
 }
 
 resource "aws_cloudwatch_log_group" "task" {
-  name              = "${var.task_identifier}"
+  name              = "${var.service_identifier}-${var.task_identifier}"
   retention_in_days = "${var.ecs_log_retention}"
 }
