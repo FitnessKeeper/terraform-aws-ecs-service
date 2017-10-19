@@ -48,29 +48,31 @@ data "aws_iam_policy_document" "assume_role_service" {
 }
 
 resource "aws_iam_role" "task" {
-  name               = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
+  name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_task.json}"
 }
 
 resource "aws_iam_role_policy" "task" {
-  name   = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
+  name_prefix   = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
   role   = "${aws_iam_role.task.id}"
   policy = "${data.aws_iam_policy_document.task_policy.json}"
 }
 
 resource "aws_iam_role" "service" {
-  name               = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
+  name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_service.json}"
 }
 
 resource "aws_iam_role_policy_attachment" "service" {
+  provider   = "aws.provided"
   role       = "${aws_iam_role.service.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
 resource "aws_iam_role_policy_attachment" "task_extra" {
+  provider   = "aws.provided"
   count      = "${length(var.extra_task_policy_arns)}"
   role       = "${aws_iam_role.task.name}"
   policy_arn = "${var.extra_task_policy_arns[count.index]}"

@@ -12,14 +12,15 @@ data "template_file" "container_definition" {
     app_port              = "${var.app_port}"
     environment           = "${jsonencode(var.docker_environment)}"
     mount_points          = "${jsonencode(var.docker_mount_points)}"
-    awslogs_region        = "${data.aws_region.current.name}"
+    awslogs_region        = "${data.aws_region.region.name}"
     awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
-    awslogs_region        = "${data.aws_region.current.name}"
+    awslogs_region        = "${data.aws_region.region.name}"
     awslogs_stream_prefix = "${var.service_identifier}"
   }
 }
 
 resource "aws_ecs_task_definition" "task" {
+  provider              = "aws.provided"
   family                = "${var.service_identifier}-${var.task_identifier}"
   container_definitions = "${data.template_file.container_definition.rendered}"
   network_mode          = "${var.network_mode}"
@@ -27,6 +28,7 @@ resource "aws_ecs_task_definition" "task" {
 }
 
 resource "aws_ecs_service" "service" {
+  provider        = "aws.provided"
   name            = "${var.service_identifier}-${var.task_identifier}-service"
   cluster         = "${var.ecs_cluster_arn}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
@@ -48,11 +50,12 @@ resource "aws_ecs_service" "service" {
     "aws_alb_target_group.service",
     "aws_alb_listener.service_https",
     "aws_alb_listener.service_http",
-    "aws_iam_role.service"
+    "aws_iam_role.service",
   ]
 }
 
 resource "aws_cloudwatch_log_group" "task" {
+  provider          = "aws.provided"
   name              = "${var.service_identifier}-${var.task_identifier}"
   retention_in_days = "${var.ecs_log_retention}"
 }

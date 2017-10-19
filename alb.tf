@@ -1,17 +1,20 @@
 # ALB
 
 data "aws_acm_certificate" "alb" {
+  provider = "aws.provided"
   count = "${var.alb_enable_https ? 1 : 0}"
   domain = "${var.acm_cert_domain}"
   statuses = ["ISSUED"]
 }
 
 data "aws_security_group" "ecs" {
+  provider = "aws.provided"
   id     = "${var.ecs_security_group_id}"
   vpc_id = "${data.aws_vpc.vpc.id}"
 }
 
 resource "aws_alb" "service" {
+  provider        = "aws.provided"
   count           = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   name            = "${var.service_identifier}-${var.task_identifier}"
   internal        = "${var.alb_internal}"
@@ -25,6 +28,7 @@ resource "aws_alb" "service" {
 }
 
 resource "aws_alb_listener" "service_https" {
+  provider          = "aws.provided"
   count             = "${var.alb_enable_https ? 1 : 0}"
   load_balancer_arn = "${aws_alb.service.arn}"
   port              = "443"
@@ -39,6 +43,7 @@ resource "aws_alb_listener" "service_https" {
 }
 
 resource "aws_alb_listener" "service_http" {
+  provider          = "aws.provided"
   count             = "${var.alb_enable_http ? 1 : 0}"
   load_balancer_arn = "${aws_alb.service.arn}"
   port              = "80"
@@ -51,6 +56,7 @@ resource "aws_alb_listener" "service_http" {
 }
 
 resource "aws_alb_target_group" "service" {
+  provider = "aws.provided"
   name     = "${var.service_identifier}-${var.task_identifier}"
   port     = "${var.app_port}"
   protocol = "HTTP"
@@ -80,6 +86,7 @@ resource "aws_alb_target_group" "service" {
 }
 
 resource "aws_security_group" "alb" {
+  provider    = "aws.provided"
   count       = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   name_prefix = "alb-${var.service_identifier}-${var.task_identifier}-"
   description = "Security group for ${var.service_identifier}-${var.task_identifier} ALB"
@@ -92,6 +99,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group_rule" "alb_ingress_https" {
+  provider          = "aws.provided"
   count             = "${var.alb_enable_https ? 1 : 0}"
   type              = "ingress"
   from_port         = 443
@@ -102,6 +110,7 @@ resource "aws_security_group_rule" "alb_ingress_https" {
 }
 
 resource "aws_security_group_rule" "alb_ingress_http" {
+  provider          = "aws.provided"
   count             = "${var.alb_enable_http ? 1 : 0}"
   type              = "ingress"
   from_port         = 80
@@ -112,6 +121,7 @@ resource "aws_security_group_rule" "alb_ingress_http" {
 }
 
 resource "aws_security_group_rule" "alb_egress" {
+  provider                 = "aws.provided"
   count                    = "${(var.alb_enable_https || var.alb_enable_http) ? 1 : 0}"
   type                     = "egress"
   from_port                = 0
