@@ -1,9 +1,3 @@
-variable "aws_profile" {
-  type        = "string"
-  description = "AWS profile to use when managing resources (default is 'default')"
-  default     = "default"
-}
-
 variable "region" {
   type        = "string"
   description = "AWS region in which ECS cluster is located (default is 'us-east-1')"
