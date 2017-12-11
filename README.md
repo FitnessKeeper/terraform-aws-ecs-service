@@ -11,9 +11,6 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `task_identifier` - Unique identifier for the task, used in naming resources.
 - `docker_image` - Docker image specification.
 
-#### Optional
-- `aws_profile` - AWS config profile to use (default `default`)
-
 Usage
 -----
 
