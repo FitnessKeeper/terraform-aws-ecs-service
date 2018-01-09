@@ -35,15 +35,19 @@ module "pganalyze_testdb" {
 
 Outputs
 =======
-None.
+
+FIXME there are some outputs
 
 Authors
 =======
 
 [Steve Huff](https://github.com/hakamadare)
+[Tim Hartmann](https://github.com/tfhartmann)
 
 Changelog
 =========
+
+2.1.0 - IAM role outputs.
 
 1.0.0 - Initial release.
 
