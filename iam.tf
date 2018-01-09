@@ -54,9 +54,9 @@ resource "aws_iam_role" "task" {
 }
 
 resource "aws_iam_role_policy" "task" {
-  name_prefix   = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
-  role   = "${aws_iam_role.task.id}"
-  policy = "${data.aws_iam_policy_document.task_policy.json}"
+  name_prefix = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
+  role        = "${aws_iam_role.task.id}"
+  policy      = "${data.aws_iam_policy_document.task_policy.json}"
 }
 
 resource "aws_iam_role" "service" {
