@@ -25,6 +25,11 @@ variable "ecs_desired_count" {
   default     = 1
 }
 
+variable "docker_command" {
+  description = "String to override CMD in Docker container (default \"\")"
+  default     = ""
+}
+
 variable "docker_image" {
   type        = "string"
   description = "Docker image to use for task"
@@ -50,6 +55,11 @@ variable "docker_mount_points" {
   type        = "list"
   description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
   default     = []
+}
+
+variable "ecs_data_volume_path" {
+  description = "Path to volume on ECS node to be defined as a \"data\" volume (default \"/opt/data\")"
+  default     = "/opt/data"
 }
 
 variable "docker_environment" {

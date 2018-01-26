@@ -9,6 +9,7 @@
             "containerPort": ${app_port}
           }
         ],
+        ${command_override}
         "environment": ${environment},
         "mountPoints": ${mount_points},
         "logConfiguration": {

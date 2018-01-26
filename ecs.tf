@@ -1,5 +1,9 @@
 # ECS SERVICE
 
+locals {
+  docker_command_override = "${length(var.docker_command) > 0 ? "\"command\": [\"${var.docker_command}\"]," : ""}"
+}
+
 data "template_file" "container_definition" {
   template = "${file("${path.module}/files/container_definition.json")}"
 
@@ -10,6 +14,7 @@ data "template_file" "container_definition" {
     memory                = "${var.docker_memory}"
     memory_reservation    = "${var.docker_memory_reservation}"
     app_port              = "${var.app_port}"
+    command_override      = "${local.docker_command_override}"
     environment           = "${jsonencode(var.docker_environment)}"
     mount_points          = "${jsonencode(var.docker_mount_points)}"
     awslogs_region        = "${data.aws_region.region.name}"
@@ -24,6 +29,11 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = "${data.template_file.container_definition.rendered}"
   network_mode          = "${var.network_mode}"
   task_role_arn         = "${aws_iam_role.task.arn}"
+
+  volume {
+    name = "data"
+    host_path = "${var.ecs_data_volume_path}"
+  }
 }
 
 resource "aws_ecs_service" "service" {
