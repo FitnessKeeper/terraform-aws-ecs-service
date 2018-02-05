@@ -25,6 +25,16 @@ variable "ecs_desired_count" {
   default     = 1
 }
 
+variable "ecs_deployment_maximum_percent" {
+  default     = "200"
+  description = "Upper limit in percentage of tasks that can be running during a deployment (default 200)"
+}
+
+variable "ecs_deployment_minimum_healthy_percent" {
+  default     = "100"
+  description = "Lower limit in percentage of tasks that must remain healthy during a deployment (default 100)"
+}
+
 variable "docker_command" {
   description = "String to override CMD in Docker container (default \"\")"
   default     = ""
