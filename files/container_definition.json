@@ -3,15 +3,22 @@
         "name": "${service_identifier}-${task_identifier}",
         "image": "${image}",
         "memory": ${memory},
+        "cpu": 0,
+        "essential": true,
         "memoryReservation": ${memory_reservation},
         "portMappings": [
           {
-            "containerPort": ${app_port}
+            "containerPort": ${app_port},
+            "hostPort": 0,
+            "protocol": "tcp"
           }
         ],
         ${command_override}
         "environment": ${environment},
         "mountPoints": ${mount_points},
+        "volumesFrom": [
+          
+        ],
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {

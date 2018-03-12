@@ -35,6 +35,11 @@ variable "ecs_deployment_minimum_healthy_percent" {
   description = "Lower limit in percentage of tasks that must remain healthy during a deployment (default 100)"
 }
 
+variable "ecs_health_check_grace_period" {
+  default     = "500"
+  description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 500)"
+}
+
 variable "docker_command" {
   description = "String to override CMD in Docker container (default \"\")"
   default     = ""

@@ -31,7 +31,7 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn         = "${aws_iam_role.task.arn}"
 
   volume {
-    name = "data"
+    name      = "data"
     host_path = "${var.ecs_data_volume_path}"
   }
 }
@@ -44,6 +44,7 @@ resource "aws_ecs_service" "service" {
   iam_role                           = "${aws_iam_role.service.arn}"
   deployment_maximum_percent         = "${var.ecs_deployment_maximum_percent}"
   deployment_minimum_healthy_percent = "${var.ecs_deployment_minimum_healthy_percent}"
+  health_check_grace_period_seconds  = "${var.ecs_health_check_grace_period}"
 
   placement_strategy {
     type  = "${var.ecs_placement_strategy_type}"
