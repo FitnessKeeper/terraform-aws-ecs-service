@@ -36,8 +36,8 @@ variable "ecs_deployment_minimum_healthy_percent" {
 }
 
 variable "ecs_health_check_grace_period" {
-  default     = "500"
-  description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 500)"
+  default     = "0"
+  description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 0)"
 }
 
 variable "docker_command" {

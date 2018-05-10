@@ -35,7 +35,7 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `app_port` - Numeric port on which application listens (unnecessary if neither alb_enable_https or alb_enable_http are true)
 - `ecs_deployment_maximum_percent` - Upper limit in percentage of tasks that can be running during a deployment (default 200)
 - `ecs_deployment_minimum_healthy_percent` - Lower limit in percentage of tasks that must remain healthy during a deployment (default 100)
-- `ecs_health_check_grace_period` - Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 500)
+- `ecs_health_check_grace_period` - Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 0)
 - `ecs_placement_strategy_type` - Placement strategy to use when distributing tasks (default binpack)
 - `ecs_placement_strategy_field` - Container metadata field to use when distributing tasks (default memory)
 - `ecs_log_retention` - Number of days of ECS task logs to retain (default 3)
