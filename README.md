@@ -42,7 +42,7 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `alb_healthcheck_interval` - Time in seconds between ALB health checks (default 30)
 - `alb_healthcheck_path` - URI path for ALB health checks (default /)
 - `alb_healthcheck_port` - Port for ALB to use when connecting health checks (default same as application traffic)
-- `alb_healthcheck_protocol - Protocol for ALB to use when connecting health checks (default HTTP)
+- `alb_healthcheck_protocol` - Protocol for ALB to use when connecting health checks (default HTTP)
 - `alb_healthcheck_timeout` - Timeout in seconds for ALB to use when connecting health checks (default 5)
 - `alb_healthcheck_healthy_threshold` - Number of consecutive successful health checks before marking service as healthy (default 5)
 - `alb_healthcheck_unhealthy_threshold` - Number of consecutive failed health checks before marking service as unhealthy (default 2)
