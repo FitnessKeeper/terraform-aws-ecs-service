@@ -1,9 +1,10 @@
 # ALB
 
 data "aws_acm_certificate" "alb" {
-  count    = "${var.alb_enable_https ? 1 : 0}"
-  domain   = "${var.acm_cert_domain}"
-  statuses = ["ISSUED"]
+  count       = "${var.alb_enable_https ? 1 : 0}"
+  domain      = "${var.acm_cert_domain}"
+  most_recent = true
+  statuses    = ["ISSUED"]
 }
 
 data "aws_security_group" "ecs" {
