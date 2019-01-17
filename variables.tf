@@ -158,6 +158,15 @@ variable "ecs_log_retention" {
   default     = 3
 }
 
+variable "lb_bucket_name" {
+  description = "Full name for S3 bucket"
+  default     = "dummy"
+}
+
+variable "lb_log_prefix" {
+  default = "log/elb"
+}
+
 variable "alb_healthcheck_interval" {
   description = "Time in seconds between ALB health checks (default 30)"
   default     = 30
