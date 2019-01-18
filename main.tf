@@ -9,5 +9,5 @@ data "aws_vpc" "vpc" {
 }
 
 locals {
-  lb_log_enabled = "${var.lb_bucket_name != "dummy" || var.lb_bucket_name != "" ? 1 : 0}"
+  lb_log_enabled = "${var.lb_bucket_name != "dummy" && var.lb_bucket_name != "" ? 1 : 0}"
 }
