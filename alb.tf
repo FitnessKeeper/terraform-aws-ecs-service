@@ -20,7 +20,7 @@ resource "aws_alb" "service" {
   subnets         = ["${var.alb_subnet_ids}"]
 
   access_logs {
-    enabled = "${local.lb_log_enabled}"
+    enabled = "${var.lb_log_enabled}"
     bucket  = "${var.lb_bucket_name}"
     prefix  = "${var.lb_log_prefix}/${var.service_identifier}/${var.task_identifier}"
   }
