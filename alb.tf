@@ -19,6 +19,12 @@ resource "aws_alb" "service" {
   security_groups = ["${aws_security_group.alb.id}"]
   subnets         = ["${var.alb_subnet_ids}"]
 
+  access_logs {
+    enabled = "${var.lb_log_enabled}"
+    bucket  = "${var.lb_bucket_name}"
+    prefix  = "${var.lb_log_prefix}/${var.service_identifier}/${var.task_identifier}"
+  }
+
   tags {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
     Application = "${aws_ecs_task_definition.task.family}"

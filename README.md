@@ -13,6 +13,7 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `vpc_id` - ID of VPC in which ECS cluster is located
 - `ecs_cluster_arn` - ARN of ECS cluster in which the service will be deployed
 - `ecs_security_group_id` - Security group ID of ECS cluster in which the service will be deployed
+- `lb_bucket_name` - Full name for S3 bucket.
 
 #### Optional
 
@@ -49,6 +50,8 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `alb_healthcheck_matcher` - HTTP response codes to accept as healthy (default 200)
 - `alb_stickiness_enabled` - Enable ALB session stickiness (default false)
 - `alb_cookie_duration` - Duration of ALB session stickiness cookie in seconds (default 86400)
+- `lb_log_enabled` - Enables/Disables logging to designated S3 bucket.  S3 bucket name (lb_bucket_name) is still required.  (default is true)
+- `lb_log_prefix` - Prefix for S3 bucket. (default is log/elb).
 
 Usage
 -----

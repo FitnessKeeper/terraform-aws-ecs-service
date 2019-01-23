@@ -158,6 +158,20 @@ variable "ecs_log_retention" {
   default     = 3
 }
 
+variable "lb_log_enabled" {
+  description = "Enables/Disables logging to designated S3 bucket.  S3 bucket name (lb_bucket_name) is still required.  (default is true)"
+  default = true
+}
+
+variable "lb_bucket_name" {
+  description = "Full name for S3 bucket."
+}
+
+variable "lb_log_prefix" {
+  description = "Prefix for S3 bucket. (default is log/elb)."
+  default = "log/elb"
+}
+
 variable "alb_healthcheck_interval" {
   description = "Time in seconds between ALB health checks (default 30)"
   default     = 30

@@ -62,3 +62,5 @@ Temporary Items
 # Variable values for development
 terraform.tfvars
 
+# IDEA configuration files
+.idea
