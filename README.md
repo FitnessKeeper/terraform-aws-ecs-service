@@ -51,7 +51,7 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 - `alb_stickiness_enabled` - Enable ALB session stickiness (default false)
 - `alb_cookie_duration` - Duration of ALB session stickiness cookie in seconds (default 86400)
 - `lb_log_enabled` - Enables/Disables logging to designated S3 bucket.  S3 bucket name (lb_bucket_name) is still required.  (default is true)
-- `lb_log_prefix` - Prefix for S3 bucket. (default is log/elb).
+- `lb_log_prefix` - Prefix for S3 bucket. (default is logs/elb).
 
 Usage
 -----

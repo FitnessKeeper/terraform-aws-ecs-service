@@ -169,7 +169,7 @@ variable "lb_bucket_name" {
 
 variable "lb_log_prefix" {
   description = "Prefix for S3 bucket. (default is log/elb)."
-  default = "log/elb"
+  default = "logs/elb"
 }
 
 variable "alb_healthcheck_interval" {
