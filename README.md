@@ -5,6 +5,45 @@ Terraform module for deploying and managing a generic [ECS](https://aws.amazon.c
 
 ----------------------
 
+## Usage
+
+-----
+
+```hcl
+
+module "pganalyze_testdb" {
+  source             = "github.com/terraform-community-modules/tf_aws_ecs_service?ref=v1.0.0"
+  region             = "${data.aws_region.current.name}"
+  ecs_cluster        = "my-ecs-cluster"
+  service_identifier = "pganalyze"
+  task_identifier    = "testdb"
+  docker_image       = "quay.io/pganalyze:stable"
+
+  docker_environment = [
+    {
+      "name"  = "DB_URL",
+      "value" = "postgres://user:password@host:port/database",
+    },
+  ]
+}
+```
+
+Authors
+=======
+
+* [Steve Huff](https://github.com/hakamadare)
+* [Tim Hartmann](https://github.com/tfhartmann)
+
+Changelog
+=========
+
+Please See the GitHub [Releases Page](https://github.com/FitnessKeeper/terraform-aws-ecs-service/releases)
+
+License
+=======
+
+This software is released under the MIT License (see `LICENSE`).
+---
 ## Required Inputs
 
 The following input variables are required:
@@ -351,6 +390,10 @@ Default: `"task"`
 
 The following outputs are exported:
 
+### alb\_dns\_arn
+
+Description: ARN of ALB provisioned for service (if present)
+
 ### alb\_dns\_name
 
 Description: FQDN of ALB provisioned for service (if present)
@@ -382,44 +425,3 @@ Description: ARN of the IAM Role for the ECS Task
 ### task\_iam\_role\_name
 
 Description: Name of the IAM Role for the ECS Task
-
-## Usage
-
------
-
-```hcl
-
-module "pganalyze_testdb" {
-  source             = "github.com/terraform-community-modules/tf_aws_ecs_service?ref=v1.0.0"
-  region             = "${data.aws_region.current.name}"
-  ecs_cluster        = "my-ecs-cluster"
-  service_identifier = "pganalyze"
-  task_identifier    = "testdb"
-  docker_image       = "quay.io/pganalyze:stable"
-
-  docker_environment = [
-    {
-      "name"  = "DB_URL",
-      "value" = "postgres://user:password@host:port/database",
-    },
-  ]
-}
-```
-
-Authors
-=======
-
-* [Steve Huff](https://github.com/hakamadare)
-* [Tim Hartmann](https://github.com/tfhartmann)
-
-Changelog
-=========
-
-2.1.0 - IAM role outputs.
-
-1.0.0 - Initial release.
-
-License
-=======
-
-This software is released under the MIT License (see `LICENSE`).
