@@ -3,7 +3,7 @@ output "alb_dns_name" {
   value       = "${(var.alb_enable_https || var.alb_enable_http) ? element(concat(aws_alb.service.*.dns_name, list("")), 0) : "not created"}"
 }
 
-output "alb_dns_arn" {
+output "alb_arn" {
   description = "ARN of ALB provisioned for service (if present)"
   value       = "${(var.alb_enable_https || var.alb_enable_http) ? element(concat(aws_alb.service.*.arn, list("")), 0) : "not created"}"
 }

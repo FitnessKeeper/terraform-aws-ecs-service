@@ -43,7 +43,7 @@ License
 =======
 
 This software is released under the MIT License (see `LICENSE`).
----
+----------------------
 ## Required Inputs
 
 The following input variables are required:
@@ -390,7 +390,7 @@ Default: `"task"`
 
 The following outputs are exported:
 
-### alb\_dns\_arn
+### alb\_arn
 
 Description: ARN of ALB provisioned for service (if present)
 
