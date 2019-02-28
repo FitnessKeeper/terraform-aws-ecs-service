@@ -27,3 +27,13 @@ output "service_iam_role_name" {
   description = "Name of the IAM Role for the ECS Task"
   value       = "${aws_iam_role.service.name}"
 }
+
+output "log_group_name" {
+  description = "Name of the CloudWatch Log Group"
+  value       = "${aws_cloudwatch_log_group.task.name}"
+}
+
+output "log_group_arn" {
+  description = "ARN of the CloudWatch Log Group"
+  value       = "${aws_cloudwatch_log_group.task.arn}"
+}
