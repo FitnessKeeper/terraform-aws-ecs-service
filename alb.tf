@@ -1,5 +1,3 @@
-# ALB
-
 data "aws_acm_certificate" "alb" {
   count       = "${var.alb_enable_https ? 1 : 0}"
   domain      = "${var.acm_cert_domain}"
