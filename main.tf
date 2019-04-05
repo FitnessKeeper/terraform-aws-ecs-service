@@ -1,5 +1,3 @@
-# MAIN
-
 data "aws_region" "region" {
   name = "${var.region}"
 }

@@ -48,19 +48,18 @@ data "aws_iam_policy_document" "assume_role_service" {
 }
 
 resource "aws_iam_role" "task" {
-  name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
+  description        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_task.json}"
 }
 
 resource "aws_iam_role_policy" "task" {
-  name_prefix = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
-  role        = "${aws_iam_role.task.id}"
-  policy      = "${data.aws_iam_policy_document.task_policy.json}"
+  role   = "${aws_iam_role.task.id}"
+  policy = "${data.aws_iam_policy_document.task_policy.json}"
 }
 
 resource "aws_iam_role" "service" {
-  name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsSvcRole"
+  description        = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_service.json}"
 }

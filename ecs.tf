@@ -1,5 +1,3 @@
-# ECS SERVICE
-
 locals {
   docker_command_override = "${length(var.docker_command) > 0 ? "\"command\": [\"${var.docker_command}\"]," : ""}"
 }
