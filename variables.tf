@@ -144,7 +144,7 @@ variable "app_port" {
 }
 
 variable "ecs_placement_strategy_type" {
-  description = "Placement strategy to use when distributing tasks (default to spread)"
+  description = "Placement strategy to use when distributing tasks (default spread)"
   default     = "spread"
 }
 
