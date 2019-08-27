@@ -80,8 +80,8 @@ This software is released under the MIT License (see `LICENSE`).
 | ecs\_desired\_count | Desired number of containers in the task (default 1) | string | `"1"` | no |
 | ecs\_health\_check\_grace\_period | Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 0) | string | `"0"` | no |
 | ecs\_log\_retention | Number of days of ECS task logs to retain (default 3) | string | `"3"` | no |
-| ecs\_placement\_strategy\_field | Container metadata field to use when distributing tasks (default memory) | string | `"memory"` | no |
-| ecs\_placement\_strategy\_type | Placement strategy to use when distributing tasks (default binpack) | string | `"binpack"` | no |
+| ecs\_placement\_strategy\_field | Container metadata field to use when distributing tasks (default instanceId) | string | `"instanceId"` | no |
+| ecs\_placement\_strategy\_type | Placement strategy to use when distributing tasks (default spread) | string | `"spread"` | no |
 | ecs\_security\_group\_id | Security group ID of ECS cluster in which the service will be deployed | string | n/a | yes |
 | extra\_task\_policy\_arns | List of ARNs of IAM policies to be attached to the ECS task role (in addition to the default policy, so cannot be more than 9 ARNs) | list | `<list>` | no |
 | lb\_bucket\_name | Full name for S3 bucket. | string | n/a | yes |
