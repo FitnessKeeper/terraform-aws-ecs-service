@@ -144,13 +144,13 @@ variable "app_port" {
 }
 
 variable "ecs_placement_strategy_type" {
-  description = "Placement strategy to use when distributing tasks (default binpack)"
-  default     = "binpack"
+  description = "Placement strategy to use when distributing tasks (default spread)"
+  default     = "spread"
 }
 
 variable "ecs_placement_strategy_field" {
-  description = "Container metadata field to use when distributing tasks (default memory)"
-  default     = "memory"
+  description = "Container metadata field to use when distributing tasks (default instanceId)"
+  default     = "instanceId"
 }
 
 variable "ecs_log_retention" {
