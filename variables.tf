@@ -138,9 +138,7 @@ variable "alb_subnet_ids" {
 }
 
 variable "app_port" {
-  type        = "string"
   description = "Numeric port on which application listens (unnecessary if neither alb_enable_https or alb_enable_http are true)"
-  default     = ""
 }
 
 variable "ecs_placement_strategy_type" {
