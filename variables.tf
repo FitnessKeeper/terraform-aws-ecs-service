@@ -1,26 +1,26 @@
 variable "region" {
-  type        = "string"
+  type        = string
   description = "AWS region in which ECS cluster is located (default is 'us-east-1')"
   default     = "us-east-1"
 }
 
 variable "vpc_id" {
-  type        = "string"
+  type        = string
   description = "ID of VPC in which ECS cluster is located"
 }
 
 variable "ecs_cluster_arn" {
-  type        = "string"
+  type        = string
   description = "ARN of ECS cluster in which the service will be deployed"
 }
 
 variable "ecs_security_group_id" {
-  type        = "string"
+  type        = string
   description = "Security group ID of ECS cluster in which the service will be deployed"
 }
 
 variable "ecs_desired_count" {
-  type        = "string"
+  type        = string
   description = "Desired number of containers in the task (default 1)"
   default     = 1
 }
@@ -46,7 +46,7 @@ variable "docker_command" {
 }
 
 variable "docker_image" {
-  type        = "string"
+  type        = string
   description = "Docker image to use for task"
 }
 
@@ -61,13 +61,13 @@ variable "docker_memory_reservation" {
 }
 
 variable "docker_port_mappings" {
-  type        = "list"
+  type        = list(string)
   description = "List of port mapping maps of format { \"containerPort\" = integer, [ \"hostPort\" = integer, \"protocol\" = \"tcp or udp\" ] }"
   default     = []
 }
 
 variable "docker_mount_points" {
-  type        = "list"
+  type        = list(string)
   description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
   default     = []
 }
@@ -78,7 +78,7 @@ variable "ecs_data_volume_path" {
 }
 
 variable "docker_environment" {
-  type        = "list"
+  type        = list(string)
   description = "List of environment maps of format { \"name\" = \"var_name\", \"value\" = \"var_value\" }"
   default     = []
 }
@@ -99,19 +99,19 @@ variable "task_identifier" {
 }
 
 variable "log_group_name" {
-  type        = "string"
+  type        = string
   description = "Name for CloudWatch Log Group that will receive collector logs (must be unique, default is created from service_identifier and task_identifier)"
   default     = ""
 }
 
 variable "extra_task_policy_arns" {
-  type        = "list"
+  type        = list(string)
   description = "List of ARNs of IAM policies to be attached to the ECS task role (in addition to the default policy, so cannot be more than 9 ARNs)"
   default     = []
 }
 
 variable "acm_cert_domain" {
-  type        = "string"
+  type        = string
   description = "Domain name of ACM-managed certificate"
   default     = ""
 }
@@ -132,7 +132,7 @@ variable "alb_internal" {
 }
 
 variable "alb_subnet_ids" {
-  type        = "list"
+  type        = list(string)
   description = "VPC subnet IDs in which to create the ALB (unnecessary if neither alb_enable_https or alb_enable_http are true)"
   default     = []
 }
@@ -158,7 +158,7 @@ variable "ecs_log_retention" {
 
 variable "lb_log_enabled" {
   description = "Enables/Disables logging to designated S3 bucket.  S3 bucket name (lb_bucket_name) is still required.  (default is true)"
-  default = true
+  default     = true
 }
 
 variable "lb_bucket_name" {
@@ -167,7 +167,7 @@ variable "lb_bucket_name" {
 
 variable "lb_log_prefix" {
   description = "Prefix for S3 bucket. (default is log/elb)."
-  default = "logs/elb"
+  default     = "logs/elb"
 }
 
 variable "alb_healthcheck_interval" {
@@ -219,3 +219,4 @@ variable "alb_cookie_duration" {
   description = "Duration of ALB session stickiness cookie in seconds (default 86400)"
   default     = "86400"
 }
+
