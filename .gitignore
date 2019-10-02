@@ -27,7 +27,8 @@ tags
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -64,3 +65,5 @@ terraform.tfvars
 
 # IDEA configuration files
 .idea
+
+.env
