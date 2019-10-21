@@ -25,6 +25,12 @@ variable "ecs_desired_count" {
   default     = 1
 }
 
+variable "ecs_desired_count_temporary_workaround_binpack_to_spread" {
+  type        = "string"
+  description = "Desired number of containers in the task (default 1)"
+  default     = 0
+}
+
 variable "ecs_deployment_maximum_percent" {
   default     = "200"
   description = "Upper limit in percentage of tasks that can be running during a deployment (default 200)"
