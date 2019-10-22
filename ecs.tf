@@ -68,7 +68,7 @@ resource "aws_ecs_service" "service_temporary_workaround_binpack_to_spread" {
   name                               = "${var.service_identifier}-${var.task_identifier}-service-temp-workaround-binpack-to-spread"
   cluster                            = "${var.ecs_cluster_arn}"
   task_definition                    = "${aws_ecs_task_definition.task.arn}"
-  desired_count                      = "${var.ecs_desired_count_temporary_workaround_binpack_to_spread}"
+  desired_count                      = "${var.ecs_desired_count}"
   iam_role                           = "${aws_iam_role.service.arn}"
   deployment_maximum_percent         = "${var.ecs_deployment_maximum_percent}"
   deployment_minimum_healthy_percent = "${var.ecs_deployment_minimum_healthy_percent}"
