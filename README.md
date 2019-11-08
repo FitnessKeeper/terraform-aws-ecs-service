@@ -52,6 +52,7 @@ This software is released under the MIT License (see `LICENSE`).
 |------|-------------|:----:|:-----:|:-----:|
 | acm\_cert\_domain | Domain name of ACM-managed certificate | string | `""` | no |
 | alb\_cookie\_duration | Duration of ALB session stickiness cookie in seconds (default 86400) | string | `"86400"` | no |
+| alb\_deregistration\_delay | The amount of time in seconds to wait before deregistering a target from a target group (default) | string | `"300"` | no |
 | alb\_enable\_http | Enable HTTP listener in ALB (default false) | string | `"false"` | no |
 | alb\_enable\_https | Enable HTTPS listener in ALB (default true) | string | `"true"` | no |
 | alb\_healthcheck\_healthy\_threshold | Number of consecutive successful health checks before marking service as healthy (default 5) | string | `"5"` | no |
@@ -107,4 +108,3 @@ This software is released under the MIT License (see `LICENSE`).
 | service\_iam\_role\_name | Name of the IAM Role for the ECS Task |
 | task\_iam\_role\_arn | ARN of the IAM Role for the ECS Task |
 | task\_iam\_role\_name | Name of the IAM Role for the ECS Task |
-
