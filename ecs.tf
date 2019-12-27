@@ -17,7 +17,6 @@ data "template_file" "container_definition" {
     mount_points          = jsonencode(var.docker_mount_points)
     awslogs_region        = data.aws_region.region.name
     awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
-    awslogs_region        = data.aws_region.region.name
     awslogs_stream_prefix = var.service_identifier
   }
 }
@@ -67,4 +66,3 @@ resource "aws_cloudwatch_log_group" "task" {
   name              = "${var.service_identifier}-${var.task_identifier}"
   retention_in_days = var.ecs_log_retention
 }
-
