@@ -225,3 +225,7 @@ variable "alb_cookie_duration" {
   default     = "86400"
 }
 
+variable "alb_deregistration_delay" {
+    description = "The amount of time in seconds to wait before deregistering a target from a target group."
+    default     = "300"
+}

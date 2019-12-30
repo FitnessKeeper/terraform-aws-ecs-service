@@ -59,6 +59,7 @@ resource "aws_alb_target_group" "service" {
   name     = "${var.service_identifier}-${var.task_identifier}"
   port     = var.app_port
   protocol = "HTTP"
+  deregistration_delay = var.alb_deregistration_delay
   vpc_id   = data.aws_vpc.vpc.id
 
   health_check {
