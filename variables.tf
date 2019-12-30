@@ -132,6 +132,11 @@ variable "alb_enable_http" {
   default     = "false"
 }
 
+variable "alb_sg_cidr" {
+  description = "List of CIDR blocks for ALB SG, default [\"0.0.0.0/0\"]"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "alb_internal" {
   description = "Configure ALB as internal-only (default false)"
   default     = "false"
@@ -150,13 +155,13 @@ variable "app_port" {
 }
 
 variable "ecs_placement_strategy_type" {
-  description = "Placement strategy to use when distributing tasks (default binpack)"
-  default     = "binpack"
+  description = "Placement strategy to use when distributing tasks (default spread)"
+  default     = "spread"
 }
 
 variable "ecs_placement_strategy_field" {
-  description = "Container metadata field to use when distributing tasks (default memory)"
-  default     = "memory"
+  description = "Container metadata field to use when distributing tasks (default instanceId)"
+  default     = "instanceId"
 }
 
 variable "ecs_log_retention" {
