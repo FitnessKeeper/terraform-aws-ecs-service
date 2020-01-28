@@ -37,6 +37,21 @@ resource "aws_alb_listener" "service_https" {
   ssl_policy        = "ELBSecurityPolicy-2015-05"
   certificate_arn   = data.aws_acm_certificate.alb[0].arn
 
+  dynamic "default_action" {
+    for_each = var.alb_authenticate_cognito
+    iterator = authenticate_cognito
+
+    content {
+      type = "authenticate-cognito"
+
+      authenticate_cognito {
+        user_pool_arn       = lookup(authenticate_cognito.value, "user_pool_arn", null)
+        user_pool_client_id = lookup(authenticate_cognito.value, "user_pool_client_id", null)
+        user_pool_domain    = lookup(authenticate_cognito.value, "user_pool_domain", null)
+      }
+    }
+  }
+
   default_action {
     target_group_arn = aws_alb_target_group.service.arn
     type             = "forward"
