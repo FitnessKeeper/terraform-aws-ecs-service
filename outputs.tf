@@ -15,7 +15,7 @@ output "alb_zone_id" {
 
 output "alb_https_listener_arn" {
   description = "ARN of the HTTPS Listener (if present)"
-  value       = "${var.alb_enable_https ? aws_alb_listener.service_https[0].arn : "not created"}"
+  value       = "${var.alb_enable_https ? element(concat(aws_alb_listener.service_https.*.arn, list("")), 0) : "not created"}"
 }
 
 output "target_group_arn" {
