@@ -234,4 +234,3 @@ variable "alb_authenticate_cognito" {
   description = "Optional. If the ALB should require cognito auth, pass a map of the contents of an authenticate_cognito block"
   default = {}
 }
-
