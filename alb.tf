@@ -38,6 +38,16 @@ resource "aws_alb_listener" "service_https" {
   certificate_arn   = "${data.aws_acm_certificate.alb.arn}"
 
   default_action {
+    type = "authenticate-cognito"
+
+    authenticate_cognito {
+      user_pool_arn = "${var.alb_cognito_auth_user_pool_arn}"
+      user_pool_client_id = "${var.alb_cognito_auth_user_pool_client_id}"
+      user_pool_domain = "${var.alb_cognito_auth_user_pool_domain}"
+    }
+  }
+
+  default_action {
     target_group_arn = "${aws_alb_target_group.service.arn}"
     type             = "forward"
   }

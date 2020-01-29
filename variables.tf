@@ -226,3 +226,7 @@ variable "alb_deregistration_delay" {
     description = "The amount of time in seconds to wait before deregistering a target from a target group."
     default     = "300"
 }
+
+variable "alb_cognito_auth_user_pool_arn" {}
+variable "alb_cognito_auth_user_pool_client_id" {}
+variable "alb_cognito_auth_user_pool_domain" {}
