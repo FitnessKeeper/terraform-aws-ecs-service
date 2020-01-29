@@ -123,6 +123,5 @@ resource "aws_security_group_rule" "alb_egress" {
   from_port                = 0
   to_port                  = 65535
   protocol                 = "-1"
-  source_security_group_id = "${data.aws_security_group.ecs.id}"
   security_group_id        = "${aws_security_group.alb.id}"
 }
