@@ -66,7 +66,6 @@ variable "docker_port_mappings" {
 }
 
 variable "docker_mount_points" {
-  type        = list(string)
   description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
   default     = []
 }
