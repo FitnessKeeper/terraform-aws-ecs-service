@@ -13,6 +13,16 @@ output "alb_zone_id" {
   value       = "${(var.alb_enable_https || var.alb_enable_http) ? element(concat(aws_alb.service.*.zone_id, list("")), 0) : "not created"}"
 }
 
+output "alb_https_listener_arn" {
+  description = "ARN of the HTTPS Listener (if present)"
+  value       = "${var.alb_enable_https ? element(concat(aws_alb_listener.service_https.*.arn, list("")), 0) : "not created"}"
+}
+
+output "target_group_arn" {
+  description = "ARN of the target group provisioned for service"
+  value       = "${aws_alb_target_group.service.arn}"
+}
+
 output "task_iam_role_arn" {
   description = "ARN of the IAM Role for the ECS Task"
   value       = "${aws_iam_role.task.arn}"
