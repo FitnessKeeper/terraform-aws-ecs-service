@@ -43,6 +43,10 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
   health_check_grace_period_seconds  = var.ecs_health_check_grace_period
 
+  deployment_controller {
+    type   = var.deployment_controller_type
+  }
+
   ordered_placement_strategy {
     type  = var.ecs_placement_strategy_type
     field = var.ecs_placement_strategy_field

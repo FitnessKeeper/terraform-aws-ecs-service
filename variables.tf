@@ -35,6 +35,11 @@ variable "ecs_deployment_minimum_healthy_percent" {
   description = "Lower limit in percentage of tasks that must remain healthy during a deployment (default 100)"
 }
 
+variable "deployment_controller_type" {
+  description = "Type of deployment controller. Valid values: CODE_DEPLOY, ECS. Default: ECS."
+  default = "ECS"
+}
+
 variable "ecs_health_check_grace_period" {
   default     = "0"
   description = "Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 1800. (default 0)"

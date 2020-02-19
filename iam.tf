@@ -48,18 +48,19 @@ data "aws_iam_policy_document" "assume_role_service" {
 }
 
 resource "aws_iam_role" "task" {
-  description        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
+  name               = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
 }
 
 resource "aws_iam_role_policy" "task" {
-  role   = aws_iam_role.task.id
+  name   = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
+  role   = aws_iam_role.task.name
   policy = data.aws_iam_policy_document.task_policy.json
 }
 
 resource "aws_iam_role" "service" {
-  description        = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
+  name               = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_service.json
 }
@@ -74,4 +75,3 @@ resource "aws_iam_role_policy_attachment" "task_extra" {
   role       = aws_iam_role.task.name
   policy_arn = var.extra_task_policy_arns[count.index]
 }
-
