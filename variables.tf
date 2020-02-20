@@ -133,6 +133,11 @@ variable "alb_sg_cidr" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "alb_sg_cidr_egress" {
+  description = "List of CIDR blocks for ALB SG, default [\"0.0.0.0/0\"]"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "alb_internal" {
   description = "Configure ALB as internal-only (default false)"
   default     = "false"
