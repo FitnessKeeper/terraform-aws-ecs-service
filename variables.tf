@@ -177,6 +177,10 @@ variable "lb_bucket_name" {
   description = "Full name for S3 bucket."
 }
 
+variable "lb_prefix_override" {
+  default = ""
+}
+
 variable "lb_log_prefix" {
   description = "Prefix for S3 bucket. (default is log/elb)."
   default     = "logs/elb"

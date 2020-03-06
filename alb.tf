@@ -20,7 +20,7 @@ resource "aws_alb" "service" {
   access_logs {
     enabled = var.lb_log_enabled
     bucket  = var.lb_bucket_name
-    prefix  = "${var.lb_log_prefix}/${var.service_identifier}/${var.task_identifier}"
+    prefix  = coalesce(var.lb_prefix_override, "${var.lb_log_prefix}/${var.service_identifier}/${var.task_identifier}")
   }
 
   tags = {
