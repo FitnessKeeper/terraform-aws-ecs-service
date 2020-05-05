@@ -54,7 +54,7 @@ resource "aws_iam_role" "task" {
 }
 
 resource "aws_iam_role_policy" "task" {
-  name_prefix   = "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy"
+  name_prefix   = var.task_prefix_override == "" ? "${var.service_identifier}-${var.task_identifier}-ecsTaskPolicy" : var.task_prefix_override
   role   = aws_iam_role.task.name
   policy = data.aws_iam_policy_document.task_policy.json
 }
