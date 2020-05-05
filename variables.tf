@@ -95,9 +95,17 @@ variable "service_identifier" {
   default     = "service"
 }
 
+variable "service_prefix_override" {
+  default = ""
+}
+
 variable "task_identifier" {
   description = "Unique identifier for this pganalyze task (used in log prefix, service name etc.)"
   default     = "task"
+}
+
+variable "task_prefix_override" {
+  default = ""
 }
 
 variable "log_group_name" {

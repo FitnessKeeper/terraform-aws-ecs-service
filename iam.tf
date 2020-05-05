@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "assume_role_service" {
 }
 
 resource "aws_iam_role" "task" {
-  name_prefix               = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
+  name_prefix        = var.task_prefix_override == "" ? "${var.service_identifier}-${var.task_identifier}-ecsTaskRole" : var.task_prefix_override
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
 }
@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "task" {
 }
 
 resource "aws_iam_role" "service" {
-  name_prefix               = "${var.service_identifier}-${var.task_identifier}-ecsServiceRole"
+  name_prefix        = var.service_prefix_override == "" ? "${var.service_identifier}-${var.task_identifier}-ecsServiceRole" : var.service_prefix_override
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_service.json
 }
