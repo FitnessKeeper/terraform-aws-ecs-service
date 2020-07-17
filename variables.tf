@@ -240,3 +240,13 @@ variable "alb_deregistration_delay" {
     description = "The amount of time in seconds to wait before deregistering a target from a target group."
     default     = "300"
 }
+
+variable "alb_tags" {
+  description = "List of maps of tags for an ALB."
+  default = []
+}
+
+variable "standard_tags" {
+  description = "List of map of tags for everything but an ALB."
+  default = []
+}
