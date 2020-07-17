@@ -241,11 +241,6 @@ variable "alb_deregistration_delay" {
     default     = "300"
 }
 
-variable "alb_tags" {
-  description = "List of maps of tags for an ALB."
-  default = []
-}
-
 variable "tags" {
   description = "Map of tags for everything but an ALB."
   default = {}
