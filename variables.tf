@@ -246,7 +246,7 @@ variable "alb_tags" {
   default = []
 }
 
-variable "standard_tags" {
+variable "tags" {
   description = "List of map of tags for everything but an ALB."
   default = []
 }

@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "task" {
     host_path = var.ecs_data_volume_path
   }
 
-  tags = var.standard_tags
+  tags = var.tags
 }
 
 resource "aws_ecs_service" "service" {
@@ -67,7 +67,7 @@ resource "aws_ecs_service" "service" {
     aws_iam_role.service,
   ]
 
-  tags = var.standard_tags
+  tags = var.tags
 }
 
 resource "aws_cloudwatch_log_group" "task" {

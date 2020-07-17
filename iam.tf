@@ -52,7 +52,7 @@ resource "aws_iam_role" "task" {
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
 
-  tags = var.standard_tags
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy" "task" {
@@ -66,7 +66,7 @@ resource "aws_iam_role" "service" {
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_service.json
 
-  tags = var.standard_tags
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "service" {
