@@ -31,6 +31,8 @@ resource "aws_ecs_task_definition" "task" {
     name      = "data"
     host_path = var.ecs_data_volume_path
   }
+
+  tags = var.tags
 }
 
 resource "aws_ecs_service" "service" {
@@ -64,6 +66,8 @@ resource "aws_ecs_service" "service" {
     aws_alb_listener.service_http,
     aws_iam_role.service,
   ]
+
+  tags = var.tags
 }
 
 resource "aws_cloudwatch_log_group" "task" {
