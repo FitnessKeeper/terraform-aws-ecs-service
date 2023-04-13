@@ -22,10 +22,14 @@ data "template_file" "container_definition" {
 }
 
 resource "aws_ecs_task_definition" "task" {
-  family                = "${var.service_identifier}-${var.task_identifier}"
-  container_definitions = data.template_file.container_definition.rendered
-  network_mode          = var.network_mode
-  task_role_arn         = aws_iam_role.task.arn
+  family                   = "${var.service_identifier}-${var.task_identifier}"
+  container_definitions    = data.template_file.container_definition.rendered
+  network_mode             = var.network_mode
+  requires_compatibilities = var.req_compatibilities
+  cpu                      = var.cpu
+  memory                   = var.memory
+  execution_role_arn       = aws_iam_role.task_execution_role.arn
+  task_role_arn            = aws_iam_role.task.arn
 
   volume {
     name      = "data"
@@ -46,7 +50,7 @@ resource "aws_ecs_service" "service" {
   health_check_grace_period_seconds  = var.ecs_health_check_grace_period
 
   deployment_controller {
-    type   = var.deployment_controller_type
+    type = var.deployment_controller_type
   }
 
   ordered_placement_strategy {
