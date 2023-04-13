@@ -53,11 +53,11 @@ resource "aws_alb_listener" "service_http" {
 }
 
 resource "aws_alb_target_group" "service" {
-  name     = "${var.service_identifier}-${var.task_identifier}"
-  port     = var.app_port
-  protocol = "HTTP"
+  name                 = "${var.service_identifier}-${var.task_identifier}"
+  port                 = var.app_port
+  protocol             = "HTTP"
   deregistration_delay = var.alb_deregistration_delay
-  vpc_id   = data.aws_vpc.vpc.id
+  vpc_id               = data.aws_vpc.vpc.id
 
   health_check {
     interval            = var.alb_healthcheck_interval
@@ -109,11 +109,11 @@ resource "aws_security_group_rule" "alb_ingress_http" {
 }
 
 resource "aws_security_group_rule" "alb_egress" {
-  count                    = var.alb_enable_https || var.alb_enable_http ? 1 : 0
-  type                     = "egress"
-  from_port                = 0
-  to_port                  = 65535
-  protocol                 = "-1"
-  cidr_blocks              = var.alb_sg_cidr_egress
-  security_group_id        = aws_security_group.alb[0].id
+  count             = var.alb_enable_https || var.alb_enable_http ? 1 : 0
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
+  cidr_blocks       = var.alb_sg_cidr_egress
+  security_group_id = aws_security_group.alb[0].id
 }

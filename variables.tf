@@ -37,7 +37,7 @@ variable "ecs_deployment_minimum_healthy_percent" {
 
 variable "deployment_controller_type" {
   description = "Type of deployment controller. Valid values: CODE_DEPLOY, ECS. Default: ECS."
-  default = "ECS"
+  default     = "ECS"
 }
 
 variable "ecs_health_check_grace_period" {
@@ -90,6 +90,21 @@ variable "network_mode" {
   default     = "bridge"
 }
 
+variable "req_compatibilities" {
+  description = "Launch type required by the task. Either EC2 or FARGATE"
+  default     = "[EC2]"
+}
+
+variable "cpu" {
+  description = "Number of cpu units used by the task. Required for FARGATE type"
+  default     = null
+}
+
+variable "memory" {
+  description = "Amount (in MiB) of memory used by the task. Required for FARGATE type"
+  default     = null
+}
+
 variable "service_identifier" {
   description = "Unique identifier for this pganalyze service (used in log prefix, service name etc.)"
   default     = "service"
@@ -103,7 +118,7 @@ variable "task_identifier" {
 variable "log_group_name" {
   type        = string
   description = "Name for CloudWatch Log Group that will receive collector logs (must be unique, default is created from service_identifier and task_identifier)"
-  default     = ""
+  default     = null
 }
 
 variable "extra_task_policy_arns" {
@@ -115,7 +130,7 @@ variable "extra_task_policy_arns" {
 variable "acm_cert_domain" {
   type        = string
   description = "Domain name of ACM-managed certificate"
-  default     = ""
+  default     = null
 }
 
 variable "alb_enable_https" {
@@ -153,6 +168,11 @@ variable "app_port" {
   description = "Numeric port on which application listens (unnecessary if neither alb_enable_https or alb_enable_http are true)"
 }
 
+variable "host_port" {
+  description = "Numeric port on which you want to map it to on the host"
+  default = 0
+}
+
 variable "ecs_placement_strategy_type" {
   description = "Placement strategy to use when distributing tasks (default spread)"
   default     = "spread"
@@ -178,7 +198,7 @@ variable "lb_bucket_name" {
 }
 
 variable "lb_prefix_override" {
-  default = ""
+  default = null
 }
 
 variable "lb_log_prefix" {
@@ -237,11 +257,11 @@ variable "alb_cookie_duration" {
 }
 
 variable "alb_deregistration_delay" {
-    description = "The amount of time in seconds to wait before deregistering a target from a target group."
-    default     = "300"
+  description = "The amount of time in seconds to wait before deregistering a target from a target group."
+  default     = "300"
 }
 
 variable "tags" {
   description = "Map of tags for everything but an ALB."
-  default = {}
+  default     = {}
 }

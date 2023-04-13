@@ -9,7 +9,7 @@
         "portMappings": [
           {
             "containerPort": ${app_port},
-            "hostPort": 0,
+            "hostPort": ${host_port},
             "protocol": "tcp"
           }
         ],
