@@ -169,6 +169,11 @@ variable "alb_subnet_ids" {
   default     = []
 }
 
+variable "target_type" {
+  description = "Type of target that you must specify when registering targets with this target group"
+  default = "instance"
+}
+
 variable "app_port" {
   description = "Numeric port on which application listens (unnecessary if neither alb_enable_https or alb_enable_http are true)"
 }
