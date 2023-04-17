@@ -1,30 +1,29 @@
 locals {
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": [\"${var.docker_command}\"]," : ""
-}
-
-data "template_file" "container_definition" {
-  template = file("${path.module}/files/container_definition.json")
-
-  vars = {
-    service_identifier    = var.service_identifier
-    task_identifier       = var.task_identifier
-    image                 = var.docker_image
-    memory                = var.docker_memory
-    memory_reservation    = var.docker_memory_reservation
-    app_port              = var.app_port
-    host_port             = var.host_port
-    command_override      = local.docker_command_override
-    environment           = jsonencode(var.docker_environment)
-    mount_points          = jsonencode(var.docker_mount_points)
-    awslogs_region        = data.aws_region.region.name
-    awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
-    awslogs_stream_prefix = var.service_identifier
-  }
+  container_def = templatefile("${path.module}/files/container_definition.json",
+    {
+      service_identifier    = var.service_identifier
+      task_identifier       = var.task_identifier
+      image                 = var.docker_image
+      memory                = var.docker_memory
+      memory_reservation    = var.docker_memory_reservation
+      app_port              = var.app_port
+      host_port             = var.host_port
+      command_override      = local.docker_command_override
+      environment           = jsonencode(var.docker_environment)
+      mount_points          = jsonencode(var.docker_mount_points)
+      awslogs_region        = data.aws_region.region.name
+      awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
+      awslogs_stream_prefix = var.service_identifier
+      volume_name           = var.volume_name
+      ecs_data_volume_path  = var.ecs_data_volume_path
+    }
+  )
 }
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.service_identifier}-${var.task_identifier}"
-  container_definitions    = data.template_file.container_definition.rendered
+  container_definitions    = local.container_def
   network_mode             = var.network_mode
   requires_compatibilities = var.req_compatibilities
   cpu                      = var.cpu
@@ -33,8 +32,7 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn            = aws_iam_role.task.arn
 
   volume {
-    name      = "data"
-    host_path = var.ecs_data_volume_path
+    name      = var.volume_name
   }
 
   tags = var.tags

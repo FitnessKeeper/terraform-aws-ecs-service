@@ -13,6 +13,13 @@
             "protocol": "tcp"
           }
         ],
+        "mountPoints": [
+          {
+            "readOnly": null,
+            "sourceVolume": "${volume_name}",
+            "containerPath": "${ecs_data_volume_path}"
+          }
+        ],
         ${command_override}
         "environment": ${environment},
         "mountPoints": ${mount_points},
