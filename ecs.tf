@@ -19,6 +19,8 @@ data "template_file" "container_definition" {
     awslogs_region        = data.aws_region.region.name
     awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
     awslogs_stream_prefix = var.service_identifier
+    volume_name           = var.volume_name
+    ecs_data_volume_path  = var.ecs_data_volume_path
   }
 }
 
@@ -33,8 +35,7 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn            = aws_iam_role.task.arn
 
   volume {
-    name      = "data"
-    host_path = var.ecs_data_volume_path
+    name      = var.volume_name
   }
 
   tags = var.tags

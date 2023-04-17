@@ -26,6 +26,11 @@
                "awslogs-region": "${awslogs_region}",
                "awslogs-stream-prefix": "${awslogs_stream_prefix}"
             }
+        },
+        "mountPoints": {
+          "readOnly": null,
+          "sourceVolume": "${volume_name}",
+          "containerPath": "${ecs_data_volume_path}"
         }
     }
 ]
