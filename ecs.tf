@@ -12,6 +12,7 @@ data "template_file" "container_definition" {
     memory                = var.docker_memory
     memory_reservation    = var.docker_memory_reservation
     app_port              = var.app_port
+    host_port             = var.host_port
     command_override      = local.docker_command_override
     environment           = jsonencode(var.docker_environment)
     mount_points          = jsonencode(var.docker_mount_points)
