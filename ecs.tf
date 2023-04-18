@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn            = aws_iam_role.task.arn
 
   volume {
-    name      = var.volume_name
+    name = var.volume_name
   }
 
   tags = var.tags
@@ -43,7 +43,7 @@ resource "aws_ecs_service" "service" {
   cluster                            = var.ecs_cluster_arn
   task_definition                    = aws_ecs_task_definition.task.arn
   desired_count                      = var.ecs_desired_count
-  iam_role                           = aws_iam_role.service.arn
+  iam_role                           = var.network_mode != "awsvpc" ? aws_iam_role.service.arn : null
   deployment_maximum_percent         = var.ecs_deployment_maximum_percent
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
   health_check_grace_period_seconds  = var.ecs_health_check_grace_period

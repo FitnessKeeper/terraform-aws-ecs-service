@@ -77,7 +77,7 @@ variable "docker_mount_points" {
 
 variable "volume_name" {
   description = "Name of the volume to be mounted"
-  default = "data"
+  default     = "data"
 }
 
 variable "ecs_data_volume_path" {
@@ -171,7 +171,7 @@ variable "alb_subnet_ids" {
 
 variable "target_type" {
   description = "Type of target that you must specify when registering targets with this target group"
-  default = "instance"
+  default     = "instance"
 }
 
 variable "app_port" {
@@ -180,7 +180,7 @@ variable "app_port" {
 
 variable "host_port" {
   description = "Numeric port on which you want to map it to on the host"
-  default = 0
+  default     = 0
 }
 
 variable "ecs_placement_strategy_type" {
