@@ -275,3 +275,28 @@ variable "tags" {
   description = "Map of tags for everything but an ALB."
   default     = {}
 }
+
+variable "network_config" {
+  description = "Applicable when networkmode is fargate"
+  type = list(object({
+    security_groups  = optional(list(string))
+    subnets          = optional(list(string))
+    assign_public_ip = optional(bool)
+  }))
+  default = []
+}
+
+variable "nc_security_groups" {
+  description = "Security groups associated with the task or service"
+  default     = null
+}
+
+variable "nc_subnets" {
+  description = "Subnets associated with the task or service"
+  default     = null
+}
+
+variable "nc_assign_public_ip" {
+  description = "Assign a public IP address to the ENI"
+  default     = null
+}
