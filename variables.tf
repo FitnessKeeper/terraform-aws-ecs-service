@@ -77,7 +77,7 @@ variable "docker_mount_points" {
 
 variable "volume_name" {
   description = "Name of the volume to be mounted"
-  default = "data"
+  default     = "data"
 }
 
 variable "ecs_data_volume_path" {
@@ -169,13 +169,18 @@ variable "alb_subnet_ids" {
   default     = []
 }
 
+variable "target_type" {
+  description = "Type of target that you must specify when registering targets with this target group"
+  default     = "instance"
+}
+
 variable "app_port" {
   description = "Numeric port on which application listens (unnecessary if neither alb_enable_https or alb_enable_http are true)"
 }
 
 variable "host_port" {
   description = "Numeric port on which you want to map it to on the host"
-  default = 0
+  default     = 0
 }
 
 variable "ecs_placement_strategy_type" {
@@ -269,4 +274,29 @@ variable "alb_deregistration_delay" {
 variable "tags" {
   description = "Map of tags for everything but an ALB."
   default     = {}
+}
+
+variable "network_config" {
+  description = "Applicable when networkmode is fargate"
+  type = list(object({
+    security_groups  = optional(list(string))
+    subnets          = optional(list(string))
+    assign_public_ip = optional(bool)
+  }))
+  default = []
+}
+
+variable "nc_security_groups" {
+  description = "Security groups associated with the task or service"
+  default     = null
+}
+
+variable "nc_subnets" {
+  description = "Subnets associated with the task or service"
+  default     = null
+}
+
+variable "nc_assign_public_ip" {
+  description = "Assign a public IP address to the ENI"
+  default     = null
 }
