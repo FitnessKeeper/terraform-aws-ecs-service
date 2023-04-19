@@ -3,7 +3,7 @@
         "name": "${service_identifier}-${task_identifier}",
         "image": "${image}",
         "memory": ${memory},
-        "cpu": 0,
+        "cpu": ${cpu},
         "essential": true,
         "memoryReservation": ${memory_reservation},
         "portMappings": [

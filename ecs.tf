@@ -6,6 +6,7 @@ locals {
       task_identifier       = var.task_identifier
       image                 = var.docker_image
       memory                = var.docker_memory
+      cpu                   = var.cpu
       memory_reservation    = var.docker_memory_reservation
       app_port              = var.app_port
       host_port             = var.host_port
