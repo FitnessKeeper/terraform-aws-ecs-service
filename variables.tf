@@ -314,3 +314,10 @@ variable "launch_type" {
   description = "Launch type on which to run the service. Default is EC2"
   default     = "EC2"
 }
+
+variable "placement_strategy" {
+  type = list(object({
+    type  = string
+    field = optional(string)
+  }))
+}

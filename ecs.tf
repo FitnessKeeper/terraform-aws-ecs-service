@@ -58,9 +58,12 @@ resource "aws_ecs_service" "service" {
     type = var.deployment_controller_type
   }
 
-  ordered_placement_strategy {
-    type  = var.ecs_placement_strategy_type
-    field = var.ecs_placement_strategy_field
+  dynamic "ordered_placement_strategy" {
+    for_each = var.placement_strategy
+    content {
+      type  = var.ecs_placement_strategy_type
+      field = var.ecs_placement_strategy_field
+    }
   }
 
   dynamic "network_configuration" {
