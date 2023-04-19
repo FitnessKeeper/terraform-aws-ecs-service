@@ -309,3 +309,8 @@ variable "task_volume" {
   }))
   default = []
 }
+
+variable "launch_type" {
+  description = "Launch type on which to run the service. Default is EC2"
+  default     = "EC2"
+}
