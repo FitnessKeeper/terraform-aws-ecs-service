@@ -300,3 +300,12 @@ variable "nc_assign_public_ip" {
   description = "Assign a public IP address to the ENI"
   default     = null
 }
+
+variable "task_volume" {
+  description = "optional volume block in task definition. Do not pass any value for EC2 launch type"
+  type = list(object({
+    name      = optional(string)
+    host_path = optional(string)
+  }))
+  default = []
+}

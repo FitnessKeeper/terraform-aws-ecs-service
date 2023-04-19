@@ -31,8 +31,12 @@ resource "aws_ecs_task_definition" "task" {
   execution_role_arn       = aws_iam_role.task_execution_role.arn
   task_role_arn            = aws_iam_role.task.arn
 
-  volume {
-    name = var.volume_name
+  dynamic "volume" {
+    for_each = var.task_volume
+    content {
+      name      = var.task_volume == "" ? null : var.volume_name
+      host_path = var.task_volume == "" ? null : var.ecs_data_volume_path
+    }
   }
 
   tags = var.tags
