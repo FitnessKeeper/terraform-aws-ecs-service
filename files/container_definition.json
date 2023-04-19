@@ -13,7 +13,6 @@
             "protocol": "tcp"
           }
         ],
-        "mountPoints": [],
         ${command_override}
         "environment": ${environment},
         "mountPoints": ${mount_points},

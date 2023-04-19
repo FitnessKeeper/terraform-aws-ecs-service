@@ -304,7 +304,7 @@ variable "nc_assign_public_ip" {
 variable "task_volume" {
   description = "optional volume block in task definition. Do not pass any value for EC2 launch type"
   type = list(object({
-    name      = optional(string)
+    name      = string
     host_path = optional(string)
   }))
   default = []
