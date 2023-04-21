@@ -321,3 +321,8 @@ variable "placement_strategy" {
     field = optional(string)
   }))
 }
+
+variable "docker_secret" {
+  description = "arn of the secret to be used for dockerhub authentication"
+  default     = ""
+}

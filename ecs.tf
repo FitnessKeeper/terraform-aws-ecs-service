@@ -5,6 +5,7 @@ locals {
       service_identifier    = var.service_identifier
       task_identifier       = var.task_identifier
       image                 = var.docker_image
+      docker_secret         = var.docker_secret
       memory                = var.docker_memory
       cpu                   = var.cpu
       memory_reservation    = var.docker_memory_reservation
