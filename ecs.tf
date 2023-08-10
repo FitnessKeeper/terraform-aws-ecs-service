@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "task" {
     }
   }
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_ecs_service" "service" {
@@ -49,7 +49,7 @@ resource "aws_ecs_service" "service" {
   cluster                            = var.ecs_cluster_arn
   task_definition                    = aws_ecs_task_definition.task.arn
   desired_count                      = var.ecs_desired_count
-  launch_type                        = var.launch_type 
+  launch_type                        = var.launch_type
   iam_role                           = var.network_mode != "awsvpc" ? aws_iam_role.service.arn : null
   deployment_maximum_percent         = var.ecs_deployment_maximum_percent
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
@@ -89,7 +89,7 @@ resource "aws_ecs_service" "service" {
     aws_iam_role.service,
   ]
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_cloudwatch_log_group" "task" {

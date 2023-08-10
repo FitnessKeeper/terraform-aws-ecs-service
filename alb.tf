@@ -23,7 +23,7 @@ resource "aws_alb" "service" {
     prefix  = coalesce(var.lb_prefix_override, "${var.lb_log_prefix}/${var.service_identifier}/${var.task_identifier}")
   }
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_alb_listener" "service_https" {
@@ -77,7 +77,7 @@ resource "aws_alb_target_group" "service" {
     cookie_duration = var.alb_cookie_duration
   }
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_security_group" "alb" {
@@ -86,7 +86,7 @@ resource "aws_security_group" "alb" {
   description = "Security group for ${var.service_identifier}-${var.task_identifier} ALB"
   vpc_id      = data.aws_vpc.vpc.id
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_security_group_rule" "alb_ingress_https" {

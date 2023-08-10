@@ -15,6 +15,8 @@ data "aws_iam_policy_document" "task_policy" {
     actions = [
       "cloudwatch:GetMetricStatistics",
       "logs:DescribeLogStreams",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
       "logs:GetLogEvents",
       "logs:PutLogEvents",
     ]
@@ -60,7 +62,7 @@ resource "aws_iam_role" "task" {
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_iam_role_policy" "task" {
@@ -74,7 +76,7 @@ resource "aws_iam_role" "service" {
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_service.json
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_iam_role_policy_attachment" "service" {
@@ -91,7 +93,7 @@ resource "aws_iam_role_policy_attachment" "task_extra" {
 resource "aws_iam_role" "task_execution_role" {
   name               = "${var.service_identifier}-${var.task_identifier}-ecsTaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
-  tags               = var.tags
+  tags               = local.default_tags
 }
 
 resource "aws_iam_role_policy_attachment" "task-execution-role-policy-attachment" {

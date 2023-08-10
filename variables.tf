@@ -4,6 +4,11 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "env" {
+  type        = string
+  description = "Environment of an application"
+}
+
 variable "vpc_id" {
   type        = string
   description = "ID of VPC in which ECS cluster is located"
@@ -112,7 +117,6 @@ variable "memory" {
 
 variable "service_identifier" {
   description = "Unique identifier for this pganalyze service (used in log prefix, service name etc.)"
-  default     = "service"
 }
 
 variable "task_identifier" {
@@ -269,11 +273,6 @@ variable "alb_cookie_duration" {
 variable "alb_deregistration_delay" {
   description = "The amount of time in seconds to wait before deregistering a target from a target group."
   default     = "300"
-}
-
-variable "tags" {
-  description = "Map of tags for everything but an ALB."
-  default     = {}
 }
 
 variable "network_config" {
