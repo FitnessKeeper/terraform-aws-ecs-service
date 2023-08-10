@@ -15,7 +15,6 @@ data "aws_iam_policy_document" "task_policy" {
     actions = [
       "cloudwatch:GetMetricStatistics",
       "logs:DescribeLogStreams",
-      "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:GetLogEvents",
       "logs:PutLogEvents",
