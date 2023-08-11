@@ -1,38 +1,32 @@
 [
-    {
-        "name": "${service_identifier}-${task_identifier}",
-        "image": "${image}",
-        "memory": ${memory},
-        "cpu": 0,
-        "essential": true,
-        "memoryReservation": ${memory_reservation},
-        "portMappings": [
-          {
-            "containerPort": ${app_port},
-            "hostPort": ${host_port},
-            "protocol": "tcp"
-          }
-        ],
-        "mountPoints": [
-          {
-            "readOnly": null,
-            "sourceVolume": "${volume_name}",
-            "containerPath": "${ecs_data_volume_path}"
-          }
-        ],
-        ${command_override}
-        "environment": ${environment},
-        "mountPoints": ${mount_points},
-        "volumesFrom": [
-          
-        ],
-        "logConfiguration": {
-            "logDriver": "awslogs",
-            "options": {
-               "awslogs-group": "${awslogs_group}",
-               "awslogs-region": "${awslogs_region}",
-               "awslogs-stream-prefix": "${awslogs_stream_prefix}"
-            }
+  {
+    "name": "${service_identifier}-${task_identifier}",
+    "image": "${image}",
+    "repositoryCredentials": {
+      "credentialsParameter": "${docker_secret}"
+    },
+    "memory": ${memory},
+    "cpu": ${cpu},
+    "essential": true,
+    "memoryReservation": ${memory_reservation},
+    "portMappings": [
+      {
+        "containerPort": ${app_port},
+        "hostPort": ${host_port},
+        "protocol": "tcp"
+      }
+    ],
+    ${command_override}
+    "environment": ${environment},
+    "mountPoints": ${mount_points},
+    "volumesFrom": [],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+           "awslogs-group": "${awslogs_group}",
+           "awslogs-region": "${awslogs_region}",
+           "awslogs-stream-prefix": "${awslogs_stream_prefix}"
         }
     }
+  }
 ]

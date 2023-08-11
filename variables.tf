@@ -4,6 +4,11 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "env" {
+  type        = string
+  description = "Environment of an application"
+}
+
 variable "vpc_id" {
   type        = string
   description = "ID of VPC in which ECS cluster is located"
@@ -112,7 +117,6 @@ variable "memory" {
 
 variable "service_identifier" {
   description = "Unique identifier for this pganalyze service (used in log prefix, service name etc.)"
-  default     = "service"
 }
 
 variable "task_identifier" {
@@ -271,11 +275,6 @@ variable "alb_deregistration_delay" {
   default     = "300"
 }
 
-variable "tags" {
-  description = "Map of tags for everything but an ALB."
-  default     = {}
-}
-
 variable "network_config" {
   description = "Applicable when networkmode is fargate"
   type = list(object({
@@ -299,4 +298,30 @@ variable "nc_subnets" {
 variable "nc_assign_public_ip" {
   description = "Assign a public IP address to the ENI"
   default     = null
+}
+
+variable "task_volume" {
+  description = "optional volume block in task definition. Do not pass any value for EC2 launch type"
+  type = list(object({
+    name      = string
+    host_path = optional(string)
+  }))
+  default = []
+}
+
+variable "launch_type" {
+  description = "Launch type on which to run the service. Default is EC2"
+  default     = "EC2"
+}
+
+variable "placement_strategy" {
+  type = list(object({
+    type  = string
+    field = optional(string)
+  }))
+}
+
+variable "docker_secret" {
+  description = "arn of the secret to be used for dockerhub authentication"
+  default     = ""
 }

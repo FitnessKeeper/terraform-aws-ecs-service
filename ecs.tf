@@ -5,7 +5,9 @@ locals {
       service_identifier    = var.service_identifier
       task_identifier       = var.task_identifier
       image                 = var.docker_image
+      docker_secret         = var.docker_secret
       memory                = var.docker_memory
+      cpu                   = var.cpu
       memory_reservation    = var.docker_memory_reservation
       app_port              = var.app_port
       host_port             = var.host_port
@@ -31,11 +33,15 @@ resource "aws_ecs_task_definition" "task" {
   execution_role_arn       = aws_iam_role.task_execution_role.arn
   task_role_arn            = aws_iam_role.task.arn
 
-  volume {
-    name = var.volume_name
+  dynamic "volume" {
+    for_each = var.task_volume
+    content {
+      name      = var.task_volume == "" ? null : var.volume_name
+      host_path = var.task_volume == "" ? null : var.ecs_data_volume_path
+    }
   }
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_ecs_service" "service" {
@@ -43,6 +49,7 @@ resource "aws_ecs_service" "service" {
   cluster                            = var.ecs_cluster_arn
   task_definition                    = aws_ecs_task_definition.task.arn
   desired_count                      = var.ecs_desired_count
+  launch_type                        = var.launch_type
   iam_role                           = var.network_mode != "awsvpc" ? aws_iam_role.service.arn : null
   deployment_maximum_percent         = var.ecs_deployment_maximum_percent
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
@@ -52,9 +59,12 @@ resource "aws_ecs_service" "service" {
     type = var.deployment_controller_type
   }
 
-  ordered_placement_strategy {
-    type  = var.ecs_placement_strategy_type
-    field = var.ecs_placement_strategy_field
+  dynamic "ordered_placement_strategy" {
+    for_each = var.placement_strategy
+    content {
+      type  = var.ecs_placement_strategy_type
+      field = var.ecs_placement_strategy_field
+    }
   }
 
   dynamic "network_configuration" {
@@ -79,7 +89,7 @@ resource "aws_ecs_service" "service" {
     aws_iam_role.service,
   ]
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_cloudwatch_log_group" "task" {
