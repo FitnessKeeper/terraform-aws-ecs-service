@@ -80,16 +80,6 @@ variable "docker_mount_points" {
   default     = []
 }
 
-variable "volume_name" {
-  description = "Name of the volume to be mounted"
-  default     = "data"
-}
-
-variable "ecs_data_volume_path" {
-  description = "Path to volume on ECS node to be defined as a \"data\" volume (default \"/opt/data\")"
-  default     = "/opt/data"
-}
-
 variable "docker_environment" {
   description = "List of environment maps of format { \"name\" = \"var_name\", \"value\" = \"var_value\" }"
   default     = []
