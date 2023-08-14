@@ -17,8 +17,8 @@ locals {
       awslogs_region        = data.aws_region.region.name
       awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
       awslogs_stream_prefix = var.service_identifier
-      volume_name           = var.task_volume["name"]
-      ecs_data_volume_path  = var.task_volume["host_path"]
+      volume_name           = var.task_volume[0]
+      ecs_data_volume_path  = var.task_volume[1]
     }
   )
 }
@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "task" {
   dynamic "volume" {
     for_each = var.task_volume
     content {
-      name      = var.task_volume == [] ? null : var.task_volume["name"]
-      host_path = var.task_volume == [] ? null : var.task_volume["host_path"]
+      name      = var.task_volume == [] ? null : var.task_volume[0]
+      host_path = var.task_volume == [] ? null : var.task_volume[1]
     }
   }
 
