@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "task" {
   dynamic "volume" {
     for_each = var.task_volume
     content {
-      name      = var.task_volume == "" ? null : var.volume_name
-      host_path = var.task_volume == "" ? null : var.ecs_data_volume_path
+      name      = var.task_volume == [] ? null : var.volume_name
+      host_path = var.task_volume == [] ? null : var.ecs_data_volume_path
     }
   }
 

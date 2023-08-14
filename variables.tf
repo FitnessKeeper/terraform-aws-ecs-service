@@ -102,7 +102,7 @@ variable "network_mode" {
 
 variable "req_compatibilities" {
   description = "Launch type required by the task. Either EC2 or FARGATE"
-  default     = "[EC2]"
+  default     = "[FARGATE]"
 }
 
 variable "cpu" {
