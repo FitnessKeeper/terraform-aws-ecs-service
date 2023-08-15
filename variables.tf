@@ -75,11 +75,6 @@ variable "docker_port_mappings" {
   default     = []
 }
 
-variable "docker_mount_points" {
-  description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
-  default     = []
-}
-
 variable "docker_environment" {
   description = "List of environment maps of format { \"name\" = \"var_name\", \"value\" = \"var_value\" }"
   default     = []

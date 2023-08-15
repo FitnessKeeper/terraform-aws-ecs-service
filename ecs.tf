@@ -1,5 +1,9 @@
 locals {
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": [\"${var.docker_command}\"]," : ""
+  docker_mount_points = [{
+    sourceVolume  = var.task_volume.0.name,
+    containerPath = var.task_volume.0.host_path
+  }]
   container_def = templatefile("${path.module}/files/container_definition.json",
     {
       service_identifier    = var.service_identifier
@@ -13,12 +17,12 @@ locals {
       host_port             = var.host_port
       command_override      = local.docker_command_override
       environment           = jsonencode(var.docker_environment)
-      mount_points          = jsonencode(var.docker_mount_points)
+      mount_points          = jsonencode(local.docker_mount_points)
       awslogs_region        = data.aws_region.region.name
       awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
       awslogs_stream_prefix = var.service_identifier
-      volume_name           = var.task_volume[0]
-      ecs_data_volume_path  = var.task_volume[1]
+      volume_name           = var.task_volume.0.name
+      ecs_data_volume_path  = var.task_volume.0.host_path
     }
   )
 }
@@ -36,8 +40,7 @@ resource "aws_ecs_task_definition" "task" {
   dynamic "volume" {
     for_each = var.task_volume
     content {
-      name      = var.task_volume == [] ? null : var.task_volume[0]
-      host_path = var.task_volume == [] ? null : var.task_volume[1]
+     name      = var.task_volume == [] ? null : var.task_volume.0.name
     }
   }
 
