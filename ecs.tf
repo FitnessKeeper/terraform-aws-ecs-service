@@ -1,5 +1,5 @@
 locals {
-  docker_command_override = length(var.docker_command) > 0 ? "\"command\": [\"${var.docker_command}\"]," : ""
+  docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
   docker_mount_points = [{
     sourceVolume  = var.task_volume.0.name,
     containerPath = var.task_volume.0.host_path
