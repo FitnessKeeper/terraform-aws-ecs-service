@@ -54,6 +54,15 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
     actions   = ["secretsmanager:GetSecretValue"]
     resources = ["${var.docker_secret}"]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:ExecuteCommand",
+      "ecs:DescribeTasks"
+    ]
+    resources = [aws_ecs_task_definition.task.arn]
+  }
 }
 
 resource "aws_iam_role" "task" {
