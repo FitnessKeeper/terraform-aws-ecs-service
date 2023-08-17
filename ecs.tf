@@ -57,6 +57,7 @@ resource "aws_ecs_service" "service" {
   deployment_maximum_percent         = var.ecs_deployment_maximum_percent
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
   health_check_grace_period_seconds  = var.ecs_health_check_grace_period
+  enable_execute_command             = true
 
   deployment_controller {
     type = var.deployment_controller_type
