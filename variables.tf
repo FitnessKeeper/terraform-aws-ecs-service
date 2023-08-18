@@ -310,3 +310,13 @@ variable "docker_secret" {
   description = "arn of the secret to be used for dockerhub authentication"
   default     = ""
 }
+
+variable "enable_exec" {
+  description = "Whether enable exec command on the task or not"
+  default     = false
+}
+
+variable "entrypoint" {
+  description = "The entry point that's passed to the container"
+  default     = "" 
+}

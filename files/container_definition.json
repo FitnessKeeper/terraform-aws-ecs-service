@@ -9,6 +9,8 @@
     "cpu": ${cpu},
     "essential": true,
     "memoryReservation": ${memory_reservation},
+    "linuxParameters": ${linux_parameters},
+    ${entrypoint}
     "portMappings": [
       {
         "containerPort": ${app_port},

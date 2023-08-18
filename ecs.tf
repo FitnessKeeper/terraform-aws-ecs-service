@@ -1,32 +1,3 @@
-locals {
-  docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
-  docker_mount_points = [{
-    sourceVolume  = var.task_volume.0.name,
-    containerPath = var.task_volume.0.host_path
-  }]
-  container_def = templatefile("${path.module}/files/container_definition.json",
-    {
-      service_identifier    = var.service_identifier
-      task_identifier       = var.task_identifier
-      image                 = var.docker_image
-      docker_secret         = var.docker_secret
-      memory                = var.docker_memory
-      cpu                   = var.cpu
-      memory_reservation    = var.docker_memory_reservation
-      app_port              = var.app_port
-      host_port             = var.host_port
-      command_override      = local.docker_command_override
-      environment           = jsonencode(var.docker_environment)
-      mount_points          = jsonencode(local.docker_mount_points)
-      awslogs_region        = data.aws_region.region.name
-      awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
-      awslogs_stream_prefix = var.service_identifier
-      volume_name           = var.task_volume.0.name
-      ecs_data_volume_path  = var.task_volume.0.host_path
-    }
-  )
-}
-
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.service_identifier}-${var.task_identifier}"
   container_definitions    = local.container_def
@@ -57,7 +28,7 @@ resource "aws_ecs_service" "service" {
   deployment_maximum_percent         = var.ecs_deployment_maximum_percent
   deployment_minimum_healthy_percent = var.ecs_deployment_minimum_healthy_percent
   health_check_grace_period_seconds  = var.ecs_health_check_grace_period
-  enable_execute_command             = true
+  enable_execute_command             = var.enable_exec
 
   deployment_controller {
     type = var.deployment_controller_type
