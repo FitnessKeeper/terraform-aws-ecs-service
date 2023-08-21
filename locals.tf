@@ -28,7 +28,7 @@ locals {
       environment           = jsonencode(var.docker_environment)
       mount_points          = jsonencode(local.docker_mount_points)
       awslogs_region        = data.aws_region.region.name
-      awslogs_group         = "${var.service_identifier}-${var.task_identifier}"
+      awslogs_group         = aws_cloudwatch_log_group.task.name
       awslogs_stream_prefix = var.service_identifier
     }
   )
