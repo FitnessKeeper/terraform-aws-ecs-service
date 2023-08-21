@@ -115,7 +115,7 @@ resource "aws_iam_role_policy" "task_execution_role_policy" {
   policy = data.aws_iam_policy_document.task_execution_role_policy.json
 }
 
-resource "aws_iam_role_policy_attachment" "ssm_instance_role_policy_payments" {
-  role       = aws_iam_role.task.id
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
+#resource "aws_iam_role_policy_attachment" "ssm_instance_role_policy_payments" {
+#  role       = aws_iam_role.task.id
+#  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+#}
