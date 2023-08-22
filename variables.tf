@@ -312,5 +312,5 @@ variable "enable_exec" {
 
 variable "entrypoint" {
   description = "The entry point that's passed to the container"
-  default     = "" 
+  default     = ""
 }

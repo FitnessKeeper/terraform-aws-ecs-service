@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "task" {
   dynamic "volume" {
     for_each = var.task_volume
     content {
-     name      = var.task_volume == [] ? null : var.task_volume.0.name
+      name = var.task_volume == [] ? null : var.task_volume.0.name
     }
   }
 

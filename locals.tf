@@ -6,7 +6,7 @@ locals {
   }
 
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
-  docker_entrypoint = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
+  docker_entrypoint       = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
 
   docker_mount_points = [{
     sourceVolume  = var.task_volume == [] ? null : var.task_volume.0.name,
