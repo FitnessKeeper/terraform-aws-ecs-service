@@ -290,7 +290,7 @@ variable "task_volume" {
 
 variable "launch_type" {
   description = "Launch type on which to run the service. Default is EC2"
-  default     = "EC2"
+  default     = "FARGATE"
 }
 
 variable "placement_strategy" {
