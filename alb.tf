@@ -1,15 +1,3 @@
-data "aws_acm_certificate" "alb" {
-  count       = var.alb_enable_https ? 1 : 0
-  domain      = var.acm_cert_domain
-  most_recent = true
-  statuses    = ["ISSUED"]
-}
-
-data "aws_security_group" "ecs" {
-  id     = var.ecs_security_group_id
-  vpc_id = data.aws_vpc.vpc.id
-}
-
 resource "aws_alb" "service" {
   count           = var.alb_enable_https || var.alb_enable_http ? 1 : 0
   name            = "${var.service_identifier}-${var.task_identifier}"

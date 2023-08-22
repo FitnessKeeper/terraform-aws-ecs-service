@@ -1,70 +1,3 @@
-data "aws_iam_policy_document" "task_policy" {
-  statement {
-    actions = [
-      "ec2:Describe*",
-      "autoscaling:Describe*",
-      "ec2:DescribeAddresses",
-      "ec2:DescribeInstances",
-      "ec2:DescribeTags",
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "cloudwatch:GetMetricStatistics",
-      "logs:DescribeLogStreams",
-      "logs:CreateLogStream",
-      "logs:GetLogEvents",
-      "logs:PutLogEvents",
-    ]
-
-    resources = [
-      "*",
-    ]
-  }
-}
-
-data "aws_iam_policy_document" "assume_role_task" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "assume_role_service" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "task_execution_role_policy" {
-  statement {
-    effect    = "Allow"
-    actions   = ["secretsmanager:GetSecretValue"]
-    resources = ["${var.docker_secret}"]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ecs:ExecuteCommand",
-      "ecs:DescribeTasks"
-    ]
-    resources = [aws_ecs_task_definition.task.arn]
-  }
-}
-
 resource "aws_iam_role" "task" {
   name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
   path               = "/${var.service_identifier}/"
@@ -115,7 +48,7 @@ resource "aws_iam_role_policy" "task_execution_role_policy" {
   policy = data.aws_iam_policy_document.task_execution_role_policy.json
 }
 
-#resource "aws_iam_role_policy_attachment" "ssm_instance_role_policy_payments" {
-#  role       = aws_iam_role.task.id
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-#}
+resource "aws_iam_role_policy_attachment" "ssm_instance_role_policy_payments" {
+  role       = aws_iam_role.task.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}

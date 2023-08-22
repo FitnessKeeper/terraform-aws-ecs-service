@@ -109,12 +109,6 @@ variable "task_identifier" {
   default     = "task"
 }
 
-variable "log_group_name" {
-  type        = string
-  description = "Name for CloudWatch Log Group that will receive collector logs (must be unique, default is created from service_identifier and task_identifier)"
-  default     = null
-}
-
 variable "extra_task_policy_arns" {
   type        = list(string)
   description = "List of ARNs of IAM policies to be attached to the ECS task role (in addition to the default policy, so cannot be more than 9 ARNs)"

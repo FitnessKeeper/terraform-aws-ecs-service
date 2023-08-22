@@ -1,16 +1,25 @@
 locals {
+  default_tags = {
+    TerraformManaged = "true"
+    Env              = var.env
+    Application      = var.service_identifier
+  }
+
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
+  docker_entrypoint = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
+
   docker_mount_points = [{
     sourceVolume  = var.task_volume == [] ? null : var.task_volume.0.name,
     containerPath = var.task_volume == [] ? null : var.task_volume.0.host_path
   }]
+
   docker_linux_params = {
     "initProcessEnabled" : true,
     "capabilities" : {
       "drop" : ["NET_RAW"]
     }
   }
-  docker_entrypoint = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
+
   container_def = templatefile("${path.module}/files/container_definition.json",
     {
       service_identifier    = var.service_identifier
