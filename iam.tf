@@ -1,58 +1,9 @@
-data "aws_iam_policy_document" "task_policy" {
-  statement {
-    actions = [
-      "ec2:Describe*",
-      "autoscaling:Describe*",
-      "ec2:DescribeAddresses",
-      "ec2:DescribeInstances",
-      "ec2:DescribeTags",
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "cloudwatch:GetMetricStatistics",
-      "logs:DescribeLogStreams",
-      "logs:GetLogEvents",
-      "logs:PutLogEvents",
-    ]
-
-    resources = [
-      "*",
-    ]
-  }
-}
-
-data "aws_iam_policy_document" "assume_role_task" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "assume_role_service" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs.amazonaws.com"]
-    }
-  }
-}
-
 resource "aws_iam_role" "task" {
   name_prefix        = "${var.service_identifier}-${var.task_identifier}-ecsTaskRole"
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_iam_role_policy" "task" {
@@ -66,7 +17,7 @@ resource "aws_iam_role" "service" {
   path               = "/${var.service_identifier}/"
   assume_role_policy = data.aws_iam_policy_document.assume_role_service.json
 
-  tags = var.tags
+  tags = local.default_tags
 }
 
 resource "aws_iam_role_policy_attachment" "service" {
@@ -83,10 +34,21 @@ resource "aws_iam_role_policy_attachment" "task_extra" {
 resource "aws_iam_role" "task_execution_role" {
   name               = "${var.service_identifier}-${var.task_identifier}-ecsTaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.assume_role_task.json
-  tags               = var.tags
+  tags               = local.default_tags
 }
 
 resource "aws_iam_role_policy_attachment" "task-execution-role-policy-attachment" {
   role       = aws_iam_role.task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "task_execution_role_policy" {
+  name   = "${var.service_identifier}-${var.task_identifier}-ecs-task-execution-role-policy"
+  role   = aws_iam_role.task_execution_role.id
+  policy = data.aws_iam_policy_document.task_execution_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_instance_role_policy_payments" {
+  role       = aws_iam_role.task.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

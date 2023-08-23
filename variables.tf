@@ -4,6 +4,11 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "env" {
+  type        = string
+  description = "Environment of an application"
+}
+
 variable "vpc_id" {
   type        = string
   description = "ID of VPC in which ECS cluster is located"
@@ -70,21 +75,6 @@ variable "docker_port_mappings" {
   default     = []
 }
 
-variable "docker_mount_points" {
-  description = "List of mount point maps of format { \"sourceVolume\" = \"vol_name\", \"containerPath\" = \"path\", [\"readOnly\" = \"true or false\" ] }"
-  default     = []
-}
-
-variable "volume_name" {
-  description = "Name of the volume to be mounted"
-  default     = "data"
-}
-
-variable "ecs_data_volume_path" {
-  description = "Path to volume on ECS node to be defined as a \"data\" volume (default \"/opt/data\")"
-  default     = "/opt/data"
-}
-
 variable "docker_environment" {
   description = "List of environment maps of format { \"name\" = \"var_name\", \"value\" = \"var_value\" }"
   default     = []
@@ -97,7 +87,7 @@ variable "network_mode" {
 
 variable "req_compatibilities" {
   description = "Launch type required by the task. Either EC2 or FARGATE"
-  default     = "[EC2]"
+  default     = "[FARGATE]"
 }
 
 variable "cpu" {
@@ -112,18 +102,11 @@ variable "memory" {
 
 variable "service_identifier" {
   description = "Unique identifier for this pganalyze service (used in log prefix, service name etc.)"
-  default     = "service"
 }
 
 variable "task_identifier" {
   description = "Unique identifier for this pganalyze task (used in log prefix, service name etc.)"
   default     = "task"
-}
-
-variable "log_group_name" {
-  type        = string
-  description = "Name for CloudWatch Log Group that will receive collector logs (must be unique, default is created from service_identifier and task_identifier)"
-  default     = null
 }
 
 variable "extra_task_policy_arns" {
@@ -271,11 +254,6 @@ variable "alb_deregistration_delay" {
   default     = "300"
 }
 
-variable "tags" {
-  description = "Map of tags for everything but an ALB."
-  default     = {}
-}
-
 variable "network_config" {
   description = "Applicable when networkmode is fargate"
   type = list(object({
@@ -299,4 +277,40 @@ variable "nc_subnets" {
 variable "nc_assign_public_ip" {
   description = "Assign a public IP address to the ENI"
   default     = null
+}
+
+variable "task_volume" {
+  description = "optional volume block in task definition. Do not pass any value for EC2 launch type"
+  type = list(object({
+    name      = string
+    host_path = optional(string)
+  }))
+  default = []
+}
+
+variable "launch_type" {
+  description = "Launch type on which to run the service. Default is EC2"
+  default     = "FARGATE"
+}
+
+variable "placement_strategy" {
+  type = list(object({
+    type  = string
+    field = optional(string)
+  }))
+}
+
+variable "docker_secret" {
+  description = "arn of the secret to be used for dockerhub authentication"
+  default     = ""
+}
+
+variable "enable_exec" {
+  description = "Whether enable exec command on the task or not"
+  default     = false
+}
+
+variable "entrypoint" {
+  description = "The entry point that's passed to the container"
+  default     = ""
 }
