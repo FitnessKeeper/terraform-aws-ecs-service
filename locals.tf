@@ -8,10 +8,8 @@ locals {
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
   docker_entrypoint       = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
 
-  docker_mount_points = [{
-    sourceVolume  = var.task_volume == [] ? null : var.task_volume.0.name,
-    containerPath = var.task_volume == [] ? null : var.task_volume.0.host_path
-  }]
+  source_volume  = length(var.task_volume) > 0 ? "\"sourceVolume\": ${jsonencode(var.task_volume[0].name)}," : ""
+  container_path = length(var.task_volume) > 0 ? "\"containerPath\": ${jsonencode(var.task_volume[0].host_path)}" : ""
 
   docker_linux_params = {
     "initProcessEnabled" : true,
@@ -35,7 +33,8 @@ locals {
       host_port             = var.host_port
       command_override      = local.docker_command_override
       environment           = jsonencode(var.docker_environment)
-      mount_points          = jsonencode(local.docker_mount_points)
+      source_volume         = local.source_volume
+      container_path        = local.container_path
       awslogs_region        = data.aws_region.region.name
       awslogs_group         = aws_cloudwatch_log_group.task.name
       awslogs_stream_prefix = var.service_identifier

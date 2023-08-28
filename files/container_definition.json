@@ -20,7 +20,10 @@
     ],
     ${command_override}
     "environment": ${environment},
-    "mountPoints": ${mount_points},
+    "mountPoints": [{
+      ${source_volume}
+      ${container_path}
+    }],
     "volumesFrom": [],
     "logConfiguration": {
         "logDriver": "awslogs",
