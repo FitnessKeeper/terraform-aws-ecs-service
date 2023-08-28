@@ -8,8 +8,8 @@ locals {
   docker_command_override = length(var.docker_command) > 0 ? "\"command\": ${var.docker_command}" : ""
   docker_entrypoint       = var.enable_exec ? "\"entrypoint\": ${var.entrypoint}" : ""
 
-  source_volume  = length(var.task_volume) > 0 ? "\"sourceVolume\": ${jsonencode(var.task_volume[0].name)}," : ""
-  container_path = length(var.task_volume) > 0 ? "\"containerPath\": ${jsonencode(var.task_volume[0].host_path)}" : ""
+  source_volume  = length(var.task_volume) > 0 ? "{\"sourceVolume\": ${jsonencode(var.task_volume[0].name)}," : ""
+  container_path = length(var.task_volume) > 0 ? "\"containerPath\": ${jsonencode(var.task_volume[0].host_path)}}" : ""
 
   docker_linux_params = {
     "initProcessEnabled" : true,
