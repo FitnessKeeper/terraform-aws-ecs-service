@@ -132,8 +132,8 @@ variable "alb_enable_http" {
 }
 
 variable "alb_sg_cidr" {
-  description = "List of CIDR blocks for ALB SG, default [\"0.0.0.0/0\"]"
-  default     = ["0.0.0.0/0"]
+  description = "List of CIDR blocks for ALB SG"
+  default     = ["162.250.198.226/32"]
 }
 
 variable "alb_sg_cidr_egress" {
