@@ -306,11 +306,8 @@ variable "docker_secret" {
 }
 
 variable "enable_exec" {
-  description = "Whether enable exec command on the task or not"
+  description = "The entry point that's passed to the container. Use [ \"sleep\", \"60\" ], when enabling exec command "
   default     = false
 }
 
-variable "entrypoint" {
-  description = "The entry point that's passed to the container"
-  default     = ""
-}
+

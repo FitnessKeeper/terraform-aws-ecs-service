@@ -52,3 +52,8 @@ output "log_group_arn" {
   description = "ARN of the CloudWatch Log Group"
   value       = aws_cloudwatch_log_group.task.arn
 }
+
+output "alb_sg_id" {
+  description = "Load balancer security group id"
+  value       = aws_security_group.alb.0.id
+}
