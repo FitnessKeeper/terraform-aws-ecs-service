@@ -311,6 +311,6 @@ variable "enable_exec" {
 }
 
 variable "entrypoint" {
-  description = "The entry point that's passed to the container"
+  description = "The entry point that's passed to the container. Use [ \"sleep\", \"60\" ], when enabling exec command"
   default     = ""
 }
