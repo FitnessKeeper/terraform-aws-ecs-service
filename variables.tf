@@ -317,12 +317,15 @@ variable "entrypoint" {
 
 variable "secrets" {
   description = "Secrets to be passed to the container environment"
+  default     = ""
 }
 
 variable "secret_arns" {
   description = "Arn of the secrets that are passed to the container environment"
+  default     = null
 }
 
 variable "encryption_key" {
-  
+  description = "Kms key to decrypt secrets"
+  default     = null
 }
