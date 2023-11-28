@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "task" {
 resource "aws_ecs_service" "service" {
   name                               = "${var.service_identifier}-${var.task_identifier}-service"
   cluster                            = var.ecs_cluster_arn
-  task_definition                    = aws_ecs_task_definition.task.arn
+  task_definition                    = "${aws_ecs_task_definition.task.id}:${aws_ecs_task_definition.task.revision}"
   desired_count                      = var.ecs_desired_count
   launch_type                        = var.launch_type
   iam_role                           = var.network_mode != "awsvpc" ? aws_iam_role.service.arn : null

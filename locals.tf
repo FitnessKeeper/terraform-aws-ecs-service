@@ -38,6 +38,7 @@ locals {
       awslogs_region        = data.aws_region.region.name
       awslogs_group         = aws_cloudwatch_log_group.task.name
       awslogs_stream_prefix = var.service_identifier
+      secrets               = jsonencode(var.secrets)
     }
   )
 }

@@ -74,7 +74,13 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
   statement {
     effect    = "Allow"
     actions   = ["secretsmanager:GetSecretValue"]
-    resources = ["${var.docker_secret}"]
+    resources = concat([var.docker_secret], var.secret_arns)
+  }
+
+  statement {
+    effect    = "Allow"
+    actions   = ["kms:Decrypt"]
+    resources = [var.encryption_key]
   }
 
   statement {
@@ -83,6 +89,6 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
       "ecs:ExecuteCommand",
       "ecs:DescribeTasks"
     ]
-    resources = [aws_ecs_task_definition.task.arn]
+    resources = ["${aws_ecs_task_definition.task.arn}:*"]
   }
 }
