@@ -27,7 +27,7 @@
     "volumesFrom": [],
     "logConfiguration": {
         "logDriver": "awslogs",
-        ${secrets}
+        ${secretsoptions}
         "options": {
            "awslogs-group": "${awslogs_group}",
            "awslogs-region": "${awslogs_region}",
