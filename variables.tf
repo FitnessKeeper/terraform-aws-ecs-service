@@ -314,3 +314,18 @@ variable "entrypoint" {
   description = "The entry point that's passed to the container. Use [ \"sleep\", \"60\" ], when enabling exec command"
   default     = ""
 }
+
+variable "secrets" {
+  description = "Secrets to be passed to the container environment"
+  default     = ""
+}
+
+variable "secret_arns" {
+  description = "Arn of the secrets that are passed to the container environment"
+  default     = null
+}
+
+variable "encryption_key" {
+  description = "Kms key to decrypt secrets"
+  default     = null
+}
