@@ -5,6 +5,7 @@
     "repositoryCredentials": {
       "credentialsParameter": "${docker_secret}"
     },
+    ${secrets}
     "memory": ${memory},
     "cpu": ${cpu},
     "essential": true,
@@ -27,7 +28,6 @@
     "volumesFrom": [],
     "logConfiguration": {
         "logDriver": "awslogs",
-        ${secretsoptions}
         "options": {
            "awslogs-group": "${awslogs_group}",
            "awslogs-region": "${awslogs_region}",
