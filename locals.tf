@@ -18,7 +18,7 @@ locals {
     }
   }
 
-  secrets = length(var.secrets) > 0 ? "\"secretOptions\": ${jsonencode(var.secrets)}," : ""
+  secrets = length(var.secrets) > 0 ? "\"secrets\": ${jsonencode(var.secrets)}," : ""
 
   container_def = templatefile("${path.module}/files/container_definition.json",
     {
@@ -40,7 +40,7 @@ locals {
       awslogs_region        = data.aws_region.region.name
       awslogs_group         = aws_cloudwatch_log_group.task.name
       awslogs_stream_prefix = var.service_identifier
-      secretsoptions        = local.secrets
+      secrets               = local.secrets
     }
   )
 }
