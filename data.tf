@@ -89,6 +89,6 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
       "ecs:ExecuteCommand",
       "ecs:DescribeTasks"
     ]
-    resources = ["${aws_ecs_task_definition.task.arn}:*"]
+    resources = [aws_ecs_task_definition.task.arn]
   }
 }
