@@ -327,5 +327,6 @@ variable "secret_arns" {
 
 variable "encryption_key" {
   description = "Kms key to decrypt secrets"
+  type        = list
   default     = null
 }
