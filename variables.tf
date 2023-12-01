@@ -325,7 +325,8 @@ variable "secret_arns" {
   default     = null
 }
 
-variable "encryption_key" {
+variable "encryption_keys" {
   description = "Kms key to decrypt secrets"
-  default     = null
+  type        = list(string)
+  default     = []
 }
