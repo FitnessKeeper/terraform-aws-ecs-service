@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
   statement {
     effect    = "Allow"
     actions   = ["kms:Decrypt"]
-    resources = var.encryption_key
+    resources = var.encryption_keys
   }
 
   statement {
