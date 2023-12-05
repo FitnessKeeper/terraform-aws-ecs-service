@@ -1,6 +1,40 @@
 resource "aws_ecs_task_definition" "task" {
-  family                   = "${var.service_identifier}-${var.task_identifier}"
-  container_definitions    = local.container_def
+  family = "${var.service_identifier}-${var.task_identifier}"
+  container_definitions = jsonencode([{
+    name  = "${var.service_identifier}-${var.task_identifier}"
+    image = nonsensitive(var.docker_image)
+    repositoryCredentials = {
+      credentialsParameter = var.docker_secret
+    }
+    memory            = var.docker_memory
+    cpu               = var.cpu
+    essential         = true
+    memoryReservation = var.docker_memory_reservation
+    linuxParameters   = local.docker_linux_params
+    entrypoint        = var.enable_exec ? var.entrypoint : null
+    portMappings = [{
+      containerPort = var.app_port
+      hostPort      = var.host_port
+      protocol      = "tcp"
+    }]
+    command     = length(var.docker_command) > 0 ? var.docker_command : null
+    environment = var.docker_environment
+    mountPoints = length(var.task_volume) > 0 ? [{
+      sourceVolume  = var.task_volume[0].name
+      containerPath = var.task_volume[0].host_path
+    }] : []
+    volumesFrom = []
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.task.name
+        "awslogs-region"        = data.aws_region.region.name
+        "awslogs-stream-prefix" = var.service_identifier
+      }
+    }
+    secrets = length(var.secrets) > 0 ? var.secrets : null
+  }])
+
   network_mode             = var.network_mode
   requires_compatibilities = var.req_compatibilities
   cpu                      = var.cpu
