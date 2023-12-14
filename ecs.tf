@@ -98,7 +98,8 @@ resource "aws_ecs_service" "service" {
     aws_iam_role.service,
   ]
 
-  tags = local.default_tags
+  propagate_tags = "SERVICE"
+  tags           = local.default_tags
 }
 
 resource "aws_cloudwatch_log_group" "task" {
