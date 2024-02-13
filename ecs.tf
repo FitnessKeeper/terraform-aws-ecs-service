@@ -2,7 +2,7 @@ resource "aws_ecs_task_definition" "task" {
   family = "${var.service_identifier}-${var.task_identifier}"
   container_definitions = jsonencode([{
     name  = "${var.service_identifier}-${var.task_identifier}"
-    image = nonsensitive(var.docker_image)
+    image = var.docker_image
     repositoryCredentials = {
       credentialsParameter = var.docker_secret
     }
