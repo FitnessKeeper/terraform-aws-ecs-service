@@ -77,10 +77,29 @@ data "aws_iam_policy_document" "task_execution_role_policy" {
     resources = concat([var.docker_secret], var.secret_arns)
   }
 
-  statement {
-    effect    = "Allow"
-    actions   = ["kms:Decrypt"]
-    resources = var.encryption_keys
+  dynamic "statement" {
+    for_each = length(var.ssm_param_arns) > 0 ? [1] : []
+
+    content {
+      effect = "Allow"
+      actions = [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ]
+      resources = var.ssm_param_arns
+    }
+  }
+
+  dynamic "statement" {
+    for_each = length(var.encryption_keys) > 0 ? [1] : []
+
+    content {
+      effect = "Allow"
+      actions = [
+        "kms:Decrypt"
+      ]
+      resources = var.encryption_keys
+    }
   }
 
   statement {

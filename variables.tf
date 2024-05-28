@@ -330,3 +330,9 @@ variable "encryption_keys" {
   type        = list(string)
   default     = []
 }
+
+variable "ssm_param_arns" {
+  description = "Arn of the ssm parameters that are passed to the container environment"
+  type        = list(string)
+  default     = []
+}
