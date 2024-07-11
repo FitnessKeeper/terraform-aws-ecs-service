@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "task" {
     essential         = true
     memoryReservation = var.docker_memory_reservation
     linuxParameters   = local.docker_linux_params
-    entrypoint        = var.enable_exec ? var.entrypoint : null
+    entrypoint        = var.entrypoint
     portMappings = [{
       containerPort = var.app_port
       hostPort      = var.host_port
