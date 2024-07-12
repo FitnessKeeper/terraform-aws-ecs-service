@@ -311,8 +311,9 @@ variable "enable_exec" {
 }
 
 variable "entrypoint" {
-  description = "The entry point that's passed to the container. Use [ \"sleep\", \"60\" ], when enabling exec command"
-  default     = ""
+  description = "The entry point that's passed to the container."
+  type        = list(string)
+  default     = []
 }
 
 variable "secrets" {
