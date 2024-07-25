@@ -8,6 +8,7 @@ locals {
   docker_linux_params = {
     "initProcessEnabled" : true,
     "capabilities" : {
+      "add" : []
       "drop" : ["NET_RAW"]
     }
   }
