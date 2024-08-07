@@ -20,7 +20,7 @@ output "alb_https_listener_arn" {
 
 output "target_group_arn" {
   description = "ARN of the target group provisioned for service"
-  value       = var.create_alb ? aws_alb_target_group.service[0].arn : "not created"
+  value       = aws_alb_target_group.service.arn
 }
 
 output "task_iam_role_arn" {
@@ -55,5 +55,5 @@ output "log_group_arn" {
 
 output "alb_sg_id" {
   description = "Load balancer security group id"
-  value       = var.create_alb ? aws_security_group.alb.0.id : "not created"
+  value       = var.create_alb ? aws_security_group.alb.0.id : "not created by module"
 }

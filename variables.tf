@@ -343,9 +343,3 @@ variable "create_alb" {
   type        = bool
   default     = true
 }
-
-variable "alb_target_group_arn" {
-  description = "The ARN of the ALB target group"
-  type        = string
-  default     = ""
-}

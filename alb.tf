@@ -23,7 +23,7 @@ resource "aws_alb_listener" "service_https" {
   certificate_arn   = data.aws_acm_certificate.alb[0].arn
 
   default_action {
-    target_group_arn = aws_alb_target_group.service[0].arn
+    target_group_arn = aws_alb_target_group.service.arn
     type             = "forward"
   }
 }
@@ -35,13 +35,12 @@ resource "aws_alb_listener" "service_http" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.service[0].arn
+    target_group_arn = aws_alb_target_group.service.arn
     type             = "forward"
   }
 }
 
 resource "aws_alb_target_group" "service" {
-  count                = var.create_alb ? 1 : 0
   name                 = "${var.service_identifier}-${var.task_identifier}"
   port                 = var.app_port
   protocol             = "HTTP"

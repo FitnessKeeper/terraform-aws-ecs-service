@@ -86,13 +86,10 @@ resource "aws_ecs_service" "service" {
     }
   }
 
-  dynamic "load_balancer" {
-    for_each = var.create_alb ? [1] : []
-    content {
-      target_group_arn = var.create_alb ? aws_alb_target_group.service[0].arn : var.alb_target_group_arn
-      container_name   = "${var.service_identifier}-${var.task_identifier}"
-      container_port   = var.app_port
-    }
+  load_balancer {
+    target_group_arn = aws_alb_target_group.service.arn 
+    container_name   = "${var.service_identifier}-${var.task_identifier}"
+    container_port   = var.app_port
   }
 
   depends_on = [
