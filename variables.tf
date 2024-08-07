@@ -337,3 +337,15 @@ variable "ssm_param_arns" {
   type        = list(string)
   default     = []
 }
+
+variable "create_alb" {
+  description = "Whether to create ALB and related resources"
+  type        = bool
+  default     = true
+}
+
+variable "alb_target_group_arn" {
+  description = "The ARN of the ALB target group"
+  type        = string
+  default     = ""
+}

@@ -1,5 +1,5 @@
 resource "aws_alb" "service" {
-  count           = var.alb_enable_https || var.alb_enable_http ? 1 : 0
+  count           = var.create_alb && (var.alb_enable_https || var.alb_enable_http) ? 1 : 0
   name            = "${var.service_identifier}-${var.task_identifier}"
   internal        = var.alb_internal
   security_groups = [aws_security_group.alb[0].id]
@@ -15,7 +15,7 @@ resource "aws_alb" "service" {
 }
 
 resource "aws_alb_listener" "service_https" {
-  count             = var.alb_enable_https ? 1 : 0
+  count             = var.create_alb && var.alb_enable_https ? 1 : 0
   load_balancer_arn = aws_alb.service[0].arn
   port              = "443"
   protocol          = "HTTPS"
@@ -23,24 +23,25 @@ resource "aws_alb_listener" "service_https" {
   certificate_arn   = data.aws_acm_certificate.alb[0].arn
 
   default_action {
-    target_group_arn = aws_alb_target_group.service.arn
+    target_group_arn = aws_alb_target_group.service[0].arn
     type             = "forward"
   }
 }
 
 resource "aws_alb_listener" "service_http" {
-  count             = var.alb_enable_http ? 1 : 0
+  count             = var.create_alb && var.alb_enable_http ? 1 : 0
   load_balancer_arn = aws_alb.service[0].arn
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.service.arn
+    target_group_arn = aws_alb_target_group.service[0].arn
     type             = "forward"
   }
 }
 
 resource "aws_alb_target_group" "service" {
+  count                = var.create_alb ? 1 : 0
   name                 = "${var.service_identifier}-${var.task_identifier}"
   port                 = var.app_port
   protocol             = "HTTP"
@@ -69,7 +70,7 @@ resource "aws_alb_target_group" "service" {
 }
 
 resource "aws_security_group" "alb" {
-  count       = var.alb_enable_https || var.alb_enable_http ? 1 : 0
+  count       = var.create_alb ? 1 : 0
   name_prefix = "alb-${var.service_identifier}-${var.task_identifier}-"
   description = "Security group for ${var.service_identifier}-${var.task_identifier} ALB"
   vpc_id      = data.aws_vpc.vpc.id
@@ -78,7 +79,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group_rule" "alb_ingress_https" {
-  count             = var.alb_enable_https ? 1 : 0
+  count             = var.create_alb && var.alb_enable_https ? 1 : 0
   type              = "ingress"
   from_port         = 443
   to_port           = 443
@@ -88,7 +89,7 @@ resource "aws_security_group_rule" "alb_ingress_https" {
 }
 
 resource "aws_security_group_rule" "alb_ingress_http" {
-  count             = var.alb_enable_http ? 1 : 0
+  count             = var.create_alb && var.alb_enable_http ? 1 : 0
   type              = "ingress"
   from_port         = 80
   to_port           = 80
@@ -98,7 +99,7 @@ resource "aws_security_group_rule" "alb_ingress_http" {
 }
 
 resource "aws_security_group_rule" "alb_egress" {
-  count             = var.alb_enable_https || var.alb_enable_http ? 1 : 0
+  count             = var.create_alb ? 1 : 0
   type              = "egress"
   from_port         = 0
   to_port           = 65535
