@@ -15,7 +15,7 @@ output "alb_zone_id" {
 
 output "alb_https_listener_arn" {
   description = "ARN of the HTTPS Listener (if present)"
-  value       = var.alb_enable_https ? aws_alb_listener.service_https[0].arn : "not created"
+  value       = var.create_alb && var.alb_enable_https ? aws_alb_listener.service_https[0].arn : "not created"
 }
 
 output "target_group_arn" {
@@ -55,5 +55,5 @@ output "log_group_arn" {
 
 output "alb_sg_id" {
   description = "Load balancer security group id"
-  value       = aws_security_group.alb.0.id
+  value       = var.create_alb ? aws_security_group.alb.0.id : "not created by module"
 }
