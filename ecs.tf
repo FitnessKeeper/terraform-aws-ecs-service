@@ -80,14 +80,14 @@ resource "aws_ecs_service" "service" {
   dynamic "network_configuration" {
     for_each = var.network_config
     content {
-      security_groups  = var.nc_security_groups == "" ? null : var.nc_security_groups
-      subnets          = var.nc_subnets == "" ? null : var.nc_subnets
-      assign_public_ip = var.nc_assign_public_ip == "" ? null : var.nc_assign_public_ip
+      security_groups  = network_configuration.value.security_groups
+      subnets          = network_configuration.value.subnets
+      assign_public_ip = network_configuration.value.assign_public_ip
     }
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.service.arn 
+    target_group_arn = aws_alb_target_group.service.arn
     container_name   = "${var.service_identifier}-${var.task_identifier}"
     container_port   = var.app_port
   }
