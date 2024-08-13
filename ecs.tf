@@ -78,7 +78,7 @@ resource "aws_ecs_service" "service" {
   }
 
   dynamic "network_configuration" {
-    for_each = var.network_config # 'var.environment' should be set to the desired stage like 'stg20' or 'stg25'
+    for_each = var.network_config
     content {
       security_groups  = network_configuration.value.security_groups
       subnets          = network_configuration.value.subnets
