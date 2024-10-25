@@ -38,8 +38,8 @@ resource "aws_ecs_task_definition" "task" {
 
   network_mode             = var.network_mode
   requires_compatibilities = var.req_compatibilities
-  cpu                      = var.cpu
-  memory                   = var.memory
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
   execution_role_arn       = aws_iam_role.task_execution_role.arn
   task_role_arn            = aws_iam_role.task.arn
 
