@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "task" {
       logDriver = "awslogs"
       options = {
         "awslogs-group"         = aws_cloudwatch_log_group.task.name
-        "awslogs-region"        = data.aws_region.region.name
+        "awslogs-region"        = data.aws_region.region.region
         "awslogs-stream-prefix" = var.service_identifier
       }
     }
@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "task" {
   dynamic "volume" {
     for_each = var.task_volume
     content {
-      name = var.task_volume == [] ? null : var.task_volume.0.name
+      name = length(var.task_volume) == 0 ? null : var.task_volume[0].name
     }
   }
 

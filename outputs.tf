@@ -1,16 +1,16 @@
 output "alb_dns_name" {
   description = "FQDN of ALB provisioned for service (if present)"
-  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service.*.dns_name, [""]), 0) : "not created"
+  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service[*].dns_name, [""]), 0) : "not created"
 }
 
 output "alb_arn" {
   description = "ARN of ALB provisioned for service (if present)"
-  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service.*.arn, [""]), 0) : "not created"
+  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service[*].arn, [""]), 0) : "not created"
 }
 
 output "alb_zone_id" {
   description = "Route 53 zone ID of ALB provisioned for service (if present)"
-  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service.*.zone_id, [""]), 0) : "not created"
+  value       = var.alb_enable_https || var.alb_enable_http ? element(concat(aws_alb.service[*].zone_id, [""]), 0) : "not created"
 }
 
 output "alb_https_listener_arn" {
@@ -55,5 +55,5 @@ output "log_group_arn" {
 
 output "alb_sg_id" {
   description = "Load balancer security group id"
-  value       = var.create_alb ? aws_security_group.alb.0.id : "not created by module"
+  value       = var.create_alb ? aws_security_group.alb[0].id : "not created by module"
 }
