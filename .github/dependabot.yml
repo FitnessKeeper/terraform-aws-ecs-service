@@ -1,0 +1,28 @@
+---
+version: 2
+
+registries:
+  github-fastnorth:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{ secrets.ACTIONS_CLONE_READ_ONLY_PAT }}
+
+updates:
+  ########################################
+  ## Terraform
+  ########################################
+  - package-ecosystem: "terraform"
+    directory: "/"
+    registries: ["github-fastnorth"]
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Canada/Eastern"
+    groups:
+      tf-updates:
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
