@@ -1,5 +1,5 @@
 data "aws_region" "region" {
-  name = var.region
+  region = var.region
 }
 
 data "aws_vpc" "vpc" {
@@ -12,11 +12,6 @@ data "aws_acm_certificate" "alb" {
   domain      = var.acm_cert_domain
   most_recent = true
   statuses    = ["ISSUED"]
-}
-
-data "aws_security_group" "ecs" {
-  id     = var.ecs_security_group_id
-  vpc_id = data.aws_vpc.vpc.id
 }
 
 # IAM data sources
