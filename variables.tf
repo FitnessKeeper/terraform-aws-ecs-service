@@ -60,9 +60,16 @@ variable "docker_image" {
   description = "Docker image to use for task"
 }
 
+variable "cpu" {
+  description = "Hard limit on cpu use for task container"
+  type        = number
+  default     = null
+}
+
 variable "docker_memory" {
-  description = "Hard limit on memory use for task container (default 256)"
-  default     = 256
+  description = "Hard limit on memory use for task container"
+  type        = number
+  default     = null
 }
 
 variable "docker_memory_reservation" {
@@ -90,13 +97,15 @@ variable "req_compatibilities" {
   default     = "[FARGATE]"
 }
 
-variable "cpu" {
+variable "task_cpu" {
   description = "Number of cpu units used by the task. Required for FARGATE type"
+  type        = number
   default     = null
 }
 
-variable "memory" {
+variable "task_memory" {
   description = "Amount (in MiB) of memory used by the task. Required for FARGATE type"
+  type        = number
   default     = null
 }
 
